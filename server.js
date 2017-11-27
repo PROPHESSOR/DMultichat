@@ -5,7 +5,7 @@ var async = require('async');
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
-var winston = require('winston');
+// var winston = require('winston');
 var ipfilter = require('express-ipfilter');
 
 var config;
@@ -20,9 +20,8 @@ if (!config.host || !config.port) {
     winston.error('Error loading config file: host or port is missing!');
     throw `В конфиге должны быть хост и порт! ${e}`;
 }
+/*
 
-
-// Setup the logger
 winston.addColors({
     debug: 'green',
     info: 'cyan',
@@ -31,6 +30,40 @@ winston.addColors({
     error: 'red'
 });
 
+var logger = new winston.Logger({
+    emitErrs: true,
+    transports: [
+        new winston.transports.Console({
+            level: 'debug',
+            name: 'console',
+            handleExceptions: true,
+            // prettyPrint: true,
+            silent: false,
+            timestamp: true,
+            colorize: true,
+            json: false
+        }),
+        new winston.transports.File({
+            name: 'info',
+            filename: './logs/info.log',
+            level: 'info',
+            colorize: true
+        }),
+        new winston.transports.File({
+            name: 'error',
+            filename: './logs/error.log',
+            level: 'error',
+            colorize: true
+        })
+    ],
+    exitOnError: false
+});
+
+logger = logger.log("debug");
+
+// winston.log = logger.transports.info.;
+*/
+/* 
 winston.add(winston.transports.File, {
     name: 'info',
     filename: './logs/info.log',
@@ -44,6 +77,34 @@ winston.add(winston.transports.File, {
     level: 'error',
     colorize: true
 });
+ */
+// winston.lo
+
+
+// test.on('logged', function(){
+//     console.log(`[asjkdhflkashflksdf] ${arguments}`);
+// })
+
+// debugger;
+//FIXME: Костыль
+var logcb = () => {};
+
+function _logger(data) {
+    if (typeof data === 'object')
+        try {
+            data = JSON.parse(data);
+        } catch (e) {}
+    console.log(`[${Date.now()}]`, data);
+    logcb(data);
+}
+logger = {
+    log: _logger,
+    warn: _logger,
+    error: _logger,
+    info: _logger,
+    debug: _logger
+}
+
 
 var youtubeApi = require('./api/youtube-api');
 var twitchApi = require('./api/twitch-api');
@@ -58,7 +119,14 @@ var maxMessagesStored = 100;
 
 var server, io;
 
-function run() {
+function run(callbacks) {
+    if (callbacks && callbacks.log) {
+        // logger.on('logged', callbacks.log);
+        logcb = callbacks.log;
+    }
+
+    logger.log("lol");
+
     // Initialize all APIs
     if (config.live_data.youtube.enabled)
         youtubeApi.initialize(config);
@@ -79,14 +147,14 @@ function run() {
     app.use(express.static('public'));
     app.use(ipfilter(config.whitelisted_ips, {
         mode: 'allow',
-        logF: winston.info
+        logF: logger.info
     }));
 
     server = http.Server(app);
     io = socketio(server);
 
     io.on('connection', function (socket) {
-        winston.info('Someone has connected to the chat');
+        logger.info('Someone has connected to the chat');
         socket.emit('connected');
 
         // Send only the last 10 messages
@@ -110,7 +178,8 @@ function run() {
     }
 
     server.listen(config.port, function () {
-        winston.info('listening on *: ' + config.port);
+        logger.info('listening on *: ' + config.port);
+        if (callbacks && callbacks.cb) callbacks.cb();
     });
 
     // Retrieve new messages
@@ -149,7 +218,7 @@ function run() {
             }
 
             if (newMessages.length > 0) {
-                winston.info(newMessages);
+                logger.info(newMessages);
 
                 newMessages.forEach(function (elt) {
                     if (elt.type == 'chat') {
@@ -180,13 +249,13 @@ function run() {
             setTimeout(next, 1000);
         },
         function (err) {
-            winston.error('Error retrieving new messages: ' + err);
+            logger.error('Error retrieving new messages: ' + err);
         }
     );
 
 }
 
-function stop(){
+function stop() {
     server.close();
     return true;
 }
@@ -194,7 +263,7 @@ function stop(){
 // Create a new directory for log files
 mkdirp('./logs', function (err) {
     if (err)
-        winston.error('Unable to create the log folder', err);
+        logger.error('Unable to create the log folder', err);
 });
 
 exports.run = run;

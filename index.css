@@ -26,6 +26,11 @@ nav {
     box-sizing: border-box;
 }
 
+#log{
+	max-height: 250px;
+	overflow: scroll;
+}
+
 .back-danger {
     background: #a94442;
     color: white;
@@ -35,6 +40,17 @@ nav {
     background: #3c763d;
     color: white;
 }
+
+.back-warning {
+	background: #8a6d3b;
+	color: white;
+}
+
+
+/* a.text-warning:hover,
+  a.text-warning:focus {
+	color: #66512c;
+  } */
 
 
 /* a.text-success:hover,
