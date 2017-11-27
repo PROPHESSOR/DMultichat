@@ -12,7 +12,7 @@ Youtube = {
     },
 
     parseDogs: function(text){
-        return text.replace(/@(.+)\s/,'<orange>@$1 </orange>'); // Can be multi-word nicks
+        return text.replace(/@(.+)\s/,'<span class="chat-dog">@$1 </span>'); // Can be multi-word nicks
     }
 };
 
@@ -22,7 +22,7 @@ Twitch = {
     },
 
     parseDogs: function(text){
-        return text.replace(/@(.+)\s/,'<orange>@$1 </orange>'); // Only singl-word nicks
+        return text.replace(/@(.+)\s/,'<span class="chat-dog">@$1 </span>'); // Only singl-word nicks
     },
 
     formatEmotes: function(text, emotes) {
@@ -66,6 +66,7 @@ System = {
             youtubeStatus.wrap('<a href="' + value + '"></a>');
             break;
           case 'error':
+            if(value === "No broadcast live detected") youtubeStatus.addClass('wait');
             console.log('Youtube API error: ' + value);
             youtubeStatus.attr('title', value);
             break
@@ -209,8 +210,7 @@ Chat = {
       // Hightlight "@"
       switch (data.source) {
         case 'twitch':
-            if(data.emotes)
-              message = Twitch.parseDogs(message);
+            message = Twitch.parseDogs(message);
             break;
         case 'youtube':
             message = Youtube.parseDogs(message);

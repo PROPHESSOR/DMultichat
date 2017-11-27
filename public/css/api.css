@@ -2,13 +2,20 @@
     position: absolute;
     right: 0;
     bottom: 0;
+    cursor: pointer;
 }
 
 #api-status li {
     display: inline;
-    background-color: red;
+    background-color: rgba(255, 0, 0, .9);
+    border-radius: 5px;
+    padding: 2px;
 }
 
 #api-status .ready {
-    background-color: green !important;
+    background-color: rgba(0, 255, 0, .9) !important;
+}
+
+#api-status .wait {
+    background-color: rgba(255, 255, 0, .9) !important;
 }

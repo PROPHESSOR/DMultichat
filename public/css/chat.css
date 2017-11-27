@@ -22,25 +22,25 @@ body {
     margin-right: 0;
     padding-top: 2px;
     padding-bottom: 3px;
-    font-size:18px;
-    line-height:21px;
-    background-color:rgba(127,127,127,0.00);
+    font-size: 18px;
+    line-height: 21px;
+    background-color: rgba(127, 127, 127, 0.00);
 }
 
 .chat-line .message {
     word-wrap: break-word;
-    color:#fff;
-    font-weight:700;
-    line-height:21px;
-    text-shadow:0 0 1px #666,1px 1px 0 #000;
+    color: #fff;
+    font-weight: 700;
+    line-height: 21px;
+    text-shadow: 0 0 1px #666, 1px 1px 0 #000;
 }
 
-.chat-line .author{
-    text-transform:capitalize;
-    color:#000;
-    font-weight:700;
-    line-height:21px;
-    text-shadow:0 0 1px #666,1px 1px 0 #000;
+.chat-line .author {
+    text-transform: capitalize;
+    color: #000;
+    font-weight: 700;
+    line-height: 21px;
+    text-shadow: 0 0 1px #666, 1px 1px 0 #000;
     display: inline-block;
 }
 
@@ -51,4 +51,8 @@ body {
 .chat-line .source_icon {
     margin-right: 3px;
     vertical-align: middle;
+}
+
+.chat-line .chat-dog {
+    color: orange;
 }
