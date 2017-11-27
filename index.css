@@ -27,9 +27,21 @@ nav {
 }
 
 .back-danger {
-	background: #a94442;
-	color:white;
+    background: #a94442;
+    color: white;
 }
+
+.back-success {
+    background: #3c763d;
+    color: white;
+}
+
+
+/* a.text-success:hover,
+  a.text-success:focus {
+	color: #2b542c;
+  } */
+
 
 /* a.text-danger:hover,
 a.text-danger:focus {

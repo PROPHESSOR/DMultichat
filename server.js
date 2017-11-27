@@ -8,27 +8,41 @@ var mkdirp = require('mkdirp');
 var winston = require('winston');
 var ipfilter = require('express-ipfilter');
 
+var config;
+try {
+    config = require('./config.json');
+} catch (e) {
+    winston.error('Error loading config file: ' + e);
+    throw `Ошибка чтения файла конфигурации! ${e}`;
+}
+
+if (!config.host || !config.port) {
+    winston.error('Error loading config file: host or port is missing!');
+    throw `В конфиге должны быть хост и порт! ${e}`;
+}
+
+
 // Setup the logger
 winston.addColors({
     debug: 'green',
     info: 'cyan',
     silly: 'magenta',
-    warn:  'yellow',
+    warn: 'yellow',
     error: 'red'
 });
 
-winston.add(winston.transports.File, { 
-    name: 'info', 
-    filename: './logs/info.log', 
+winston.add(winston.transports.File, {
+    name: 'info',
+    filename: './logs/info.log',
     level: 'info',
     colorize: true
 });
 
-winston.add(winston.transports.File, { 
-    name: 'error', 
-    filename: './logs/error.log', 
+winston.add(winston.transports.File, {
+    name: 'error',
+    filename: './logs/error.log',
     level: 'error',
-    colorize: true 
+    colorize: true
 });
 
 var youtubeApi = require('./api/youtube-api');
@@ -41,6 +55,8 @@ var chatMessageId = 0;
 var chatMessages = [];
 var systemMessages = [];
 var maxMessagesStored = 100;
+
+var server, io;
 
 function run() {
     // Initialize all APIs
@@ -66,77 +82,76 @@ function run() {
         logF: winston.info
     }));
 
-    var server = http.Server(app);
-    var io = socketio(server);
+    server = http.Server(app);
+    io = socketio(server);
 
-    io.on('connection', function(socket) {
+    io.on('connection', function (socket) {
         winston.info('Someone has connected to the chat');
         socket.emit('connected');
 
         // Send only the last 10 messages
         chatMessagesToSend = chatMessages.slice(Math.max(chatMessages.length - 10, 0));
-        io.emit('oldChatMessages', chatMessagesToSend);                
+        io.emit('oldChatMessages', chatMessagesToSend);
 
         // Send system messages
-        io.emit('oldSystemMessages', systemMessages);                
+        io.emit('oldSystemMessages', systemMessages);
     });
 
-    app.get('/', function(req, res) {
+    app.get('/', function (req, res) {
         res.sendFile(path.join(__dirname, '/public/chat.html'));
     });
 
 
     if (config.live_data.youtube.enabled && config.live_data.youtube.redirect_url) {
-        app.get(config.live_data.youtube.redirect_url, function(req, res){
-          youtubeApi.getToken(req.query.code);
-          res.redirect('/');
+        app.get(config.live_data.youtube.redirect_url, function (req, res) {
+            youtubeApi.getToken(req.query.code);
+            res.redirect('/');
         });
     }
 
-    server.listen(config.port, function() {
+    server.listen(config.port, function () {
         winston.info('listening on *: ' + config.port);
     });
 
     // Retrieve new messages
     var newMessages = [];
     async.forever(
-        function(next) {
+        function (next) {
 
             if (config.live_data.youtube.enabled) {
-                youtubeApi.getNewMessages().forEach(function(elt) { 
-                    newMessages.push(elt); 
+                youtubeApi.getNewMessages().forEach(function (elt) {
+                    newMessages.push(elt);
                 });
             }
 
             if (config.live_data.twitch.enabled && twitchApi.isReady()) {
-                twitchApi.getNewMessages().forEach(function(elt) { 
-                    newMessages.push(elt); 
+                twitchApi.getNewMessages().forEach(function (elt) {
+                    newMessages.push(elt);
                 });
             }
 
             if (config.live_data.hitbox.enabled && hitboxApi.isReady()) {
-                hitboxApi.getNewMessages().forEach(function(elt) { 
-                    newMessages.push(elt); 
+                hitboxApi.getNewMessages().forEach(function (elt) {
+                    newMessages.push(elt);
                 });
             }
 
             if (config.live_data.beam.enabled && beamApi.isReady()) {
-                beamApi.getNewMessages().forEach(function(elt) { 
-                    newMessages.push(elt); 
+                beamApi.getNewMessages().forEach(function (elt) {
+                    newMessages.push(elt);
                 });
             }
 
             if (config.live_data.dailymotion.enabled && dailymotionApi.isReady()) {
-                dailymotionApi.getNewMessages().forEach(function(elt) { 
-                    newMessages.push(elt); 
+                dailymotionApi.getNewMessages().forEach(function (elt) {
+                    newMessages.push(elt);
                 });
             }
 
-            if (newMessages.length > 0)
-            {
+            if (newMessages.length > 0) {
                 winston.info(newMessages);
 
-                newMessages.forEach(function(elt) {
+                newMessages.forEach(function (elt) {
                     if (elt.type == 'chat') {
                         // Affect a unique id to each message
                         elt.id = chatMessageId;
@@ -149,15 +164,14 @@ function run() {
                             chatMessages.shift();
 
                         io.emit('newChatMessage', elt);
-                    }
-                    else if (elt.type == 'system') {
+                    } else if (elt.type == 'system') {
                         systemMessages.push(elt);
 
                         if (systemMessages.length > maxMessagesStored)
                             systemMessages.shift();
 
                         io.emit('newSystemMessage', elt);
-                    }        
+                    }
                 });
 
                 newMessages = [];
@@ -165,30 +179,23 @@ function run() {
 
             setTimeout(next, 1000);
         },
-        function(err) {
+        function (err) {
             winston.error('Error retrieving new messages: ' + err);
         }
     );
 
 }
 
+function stop(){
+    server.close();
+    return true;
+}
+
 // Create a new directory for log files
-mkdirp('./logs', function(err) {
-    if (err) 
+mkdirp('./logs', function (err) {
+    if (err)
         winston.error('Unable to create the log folder', err);
 });
 
-const config;
-try{
-    config = require('config.json');
-}catch(e){
-    winston.error('Error loading config file: ' + e);
-    throw `Ошибка чтения файла конфигурации! ${e}`;
-}
-
-if (!config.host || !config.port) {
-    winston.error('Error loading config file: host or port is missing!');
-    throw `В конфиге должны быть хост и порт! ${e}`;
-}
-
-module.exports = run();
+exports.run = run;
+exports.stop = stop;
