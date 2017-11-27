@@ -1,0 +1,37 @@
+html {
+    box-sizing: border-box;
+}
+
+label {
+    float: left;
+    /* width: 150px; */
+}
+
+select {
+    float: right;
+    /* width: 250px; */
+    width: 25%;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+.back-danger {
+	background: #a94442;
+	color:white;
+}
+
+/* a.text-danger:hover,
+a.text-danger:focus {
+    color: #843534;
+} */

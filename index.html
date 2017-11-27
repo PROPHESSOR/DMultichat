@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>DMultichat</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">DMultichat</a>
+			</div>
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active">
+					<a href="#">Старт</a>
+				</li>
+				<li>
+					<a href="#">Каналы</a>
+				</li>
+				<li class="disabled">
+					<a href="#">Логи</a>
+				</li>
+			</ul>
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-10">
+				<div class="jumbotron well back-danger">
+					<h2 class="text-center">DMultichat не запущен!</h2>
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<span class="label label-warning col-xs-12">YouTube</span>
+				<span class="label label-success col-xs-12">Twitch</span>
+				<span class="label label-danger col-xs-12">GoodGame</span>
+				<span class="label label-danger col-xs-12">VK</span>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Оформление
+						</h3>
+					</div>
+					<div class="panel-body">
+						<form>
+							<label for="theme">Тема оформления:</label>
+							<select id="theme" name="theme">
+								<option value="default">Default</option>
+								<option value="dark">Dark</option>
+								<option value="doom">Doom</option>
+								<option value="legacy">Legacy</option>
+								<option value="bright">Bright</option>
+							</select>
+						</form>
+					</div>
+					<div class="panel-footer">
+						<small>Нужна помощь?</small>
+					</div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Ссылка
+						</h3>
+					</div>
+					<div class="panel-body">
+						После запуска, мультичат будет доступен по этой ссылке:
+						<div class="well well-sm">
+							<a href="http://localhost:4545" target="_system">http://localhost:4545</a>
+						</div>
+						Вставте её во WebView вашей программы для проведения трансляций
+					</div>
+					<div class="panel-footer">
+						<small>Нужна помощь?</small>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer row">
+
+			<button type="button" class="btn btn-info col-xs-3">
+				Помощь
+			</button>
+
+			<button type="button" class="btn btn-primary col-xs-3">
+				Поддержать
+			</button>
+
+			<button type="button" class="btn btn-success col-xs-3">
+				Тест
+			</button>
+
+			<button type="button" class="btn btn-danger col-xs-3">
+				Старт
+			</button>
+
+		</div>
+	</div>
+</body>
+
+</html>
