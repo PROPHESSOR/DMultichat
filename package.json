@@ -1,8 +1,8 @@
 {
-  "name": "live-stream-chat-retriever",
-  "version": "0.0.2",
-  "description": "Retrieve live streams chat messages from different sources (Twitch, YouTube Gaming, etc...)",
-  "author": "Noxalus",
+  "name": "dmultichat",
+  "version": "0.0.1",
+  "description": "Multichat platform",
+  "author": "PROPHESSOR & Noxalus",
   "dependencies": {
     "async": "^2.0.0-rc.1",
     "beam-client-node": "^0.7.1",
@@ -16,5 +16,6 @@
     "socket.io": "^1.4.5",
     "tmi.js": "^1.1.1",
     "winston": "^2.2.0"
-  }
+  },
+  "main": "index.html"
 }
