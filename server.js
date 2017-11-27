@@ -42,7 +42,7 @@ var chatMessages = [];
 var systemMessages = [];
 var maxMessagesStored = 100;
 
-function run(config) {
+function run() {
     // Initialize all APIs
     if (config.live_data.youtube.enabled)
         youtubeApi.initialize(config);
@@ -178,19 +178,17 @@ mkdirp('./logs', function(err) {
         winston.error('Unable to create the log folder', err);
 });
 
-// Load config file
-fs.readFile('config.json', function (err, config) {
-    if (err) {
-        winston.error('Error loading config file: ' + err);
-        return;
-    }
+const config;
+try{
+    config = require('config.json');
+}catch(e){
+    winston.error('Error loading config file: ' + e);
+    throw `Ошибка чтения файла конфигурации! ${e}`;
+}
 
-    config = JSON.parse(config);
+if (!config.host || !config.port) {
+    winston.error('Error loading config file: host or port is missing!');
+    throw `В конфиге должны быть хост и порт! ${e}`;
+}
 
-    if (!config.host || !config.port) {
-        winston.error('Error loading config file: host or port is missing!');
-        return;
-    }
-
-    run(config);
-});
+module.exports = run();
