@@ -224,6 +224,7 @@ Chat = {
 
       Chat.vars.queue.push($newLine.wrap('<div>').parent().html());
   },
+
   vars: {
       startTime: Date.now(),
       gotOldChatMessages: false,
@@ -297,6 +298,14 @@ Chat = {
 
 $(document).ready(function() {
     Chat.initialize(window.location.origin);
+    Chat.insert({
+        "source":"robot",
+        "date":Date.now(),
+        "author":"DMultichat",
+        "message":"Добро пожаловать в DMultichat"
+    });
+
+    $(".fade").fadeOut();
 
     // Hide API status?
     if (getParameterByName('hide_api_status')) {
