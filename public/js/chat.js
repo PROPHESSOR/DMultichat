@@ -9,12 +9,20 @@ function getParameterByName(name) {
 Youtube = {
     parseEmoji: function(text) {
         return jEmoji.unifiedToHTML(message);
+    },
+
+    parseDogs: function(text){
+        return text.replace(/@(.+)\s/,'<orange>@$1 </orange>'); // Can be multi-word nicks
     }
 };
 
 Twitch = {
     emoteTemplate: function(id) {
         return '<img class="emoticon ttv-emo-' + id + '" src="//static-cdn.jtvnw.net/emoticons/v1/' + id + '/1.0" srcset="//static-cdn.jtvnw.net/emoticons/v1/' + id + '/2.0 2x" />';
+    },
+
+    parseDogs: function(text){
+        return text.replace(/@(.+)\s/,'<orange>@$1 </orange>'); // Only singl-word nicks
     },
 
     formatEmotes: function(text, emotes) {
@@ -195,6 +203,17 @@ Chat = {
             break;
         case 'youtube':
             message = Youtube.parseEmoji(message);
+            break;
+      }
+
+      // Hightlight "@"
+      switch (data.source) {
+        case 'twitch':
+            if(data.emotes)
+              message = Twitch.parseDogs(message);
+            break;
+        case 'youtube':
+            message = Youtube.parseDogs(message);
             break;
       }
 
