@@ -1,36 +1,45 @@
-# Live Stream Chat Retriever
+# DMultichat
 
-[![](https://david-dm.org/Noxalus/Live-Stream-Chat-Retriever.svg)](https://david-dm.org/Noxalus/Live-Stream-Chat-Retriever)
+DMultichat позволяет объединять сообщения с разных стриминговых платформ (Twitch, YouTube Gaming, Dailymotion, т.п.).
 
-Retrieve live streams chat messages from different sources (Twitch, YouTube Gaming, Dailymotion, etc...).
 
-If you have an optical fiber connection, you might want to send your live streams to multiple services to reach a wider audience. But in this case, if you want to display the chat on your stream, you need to make a choice.
+## Возможности
 
-The purpose of this project is to display an HTML page that will retrieve all chat messages from these different sources to display them in real time.
+Основные фишки и возможности:
+* Поддержка стриминговых платформ (OBS Studio, XSplit и т.п.)
+* Показывает состояние трансляции
+* Удобный GUI для настройки (*)
+* Поддержка тем оформления (*)
+* Всё это бесплатно
 
-## Features
+(*) - Пока не реализовано, или реализовано не полностью
 
-Supported services:
-* [Youtube Gaming](https://gaming.youtube.com/)
+Поддерживаемые сервисы:
+* [YouTube](https://youtube.com/)
+* [YouTube Gaming](https://gaming.youtube.com/)
 * [Twitch](https://www.twitch.tv/)
 * [Hitbox](https://www.hitbox.tv/)
 * [Beam](https://www.beam.pro/)
 * [Dailymotion Games](http://games.dailymotion.com/)
 
-## Prerequisites
+## Требуемые программы
+
+Для работы DMultichat требует интерпретатор [NW.JS](https://nwjs.io/), или [JsMobileBasic (JsMB)](https://github.com/PROPHESSOR/jsmb_interpreter_releases/releases)
 
 You need to install [Node.js](https://nodejs.org/en/download/) and launch `npm install` in the root folder.
 
-## Usage
+## Использование
+
+# Интерфейс пока реализован не полностью, по этому пока оставлю это здесь:
 
 Rename the *config.template.json* file to **config.json** and complete the missing information with yours.
 
-If you need more information about how to fill this config file, please read the [corresponding part](https://github.com/Noxalus/Live-Stream-Chat-Retriever/wiki/Configuration-file) from the wiki.
+If you need more information about how to fill this config file, please read the [corresponding part](https://github.com/PROPHESSOR/DMultichat/wiki/Configuration-file) from the wiki.
 
 Once that is done, you can run this command from the root folder: ``npm start``
 
 Then, you should see the chat messages if you browse to [*http://localhost:4242*](http://localhost:4242).
 
-## Known issue
+## Известные проблемы
 
-* Beam socket seems to disconnect after an undefined amount of time
+* Сокетное соединение разрывается через неопределенное количество времени
