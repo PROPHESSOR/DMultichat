@@ -74,7 +74,7 @@ function run(callback) {
 
     const app = express();
 
-    app.use(ipfilter(config.whitelisted_ips, {
+    app.use(ipfilter(config.server.whitelisted_ips, {
         "mode": "allow",
         "logF": logger.info
     }));
@@ -104,8 +104,8 @@ function run(callback) {
         });
     }
 
-    server.listen(config.port, () => {
-        logger.info(`Сервер запущен на порте: ${config.port}`);
+    server.listen(config.server.port, () => {
+        logger.info(`Сервер запущен на порте: ${config.server.port}`);
         if (callback) callback();
     });
 
