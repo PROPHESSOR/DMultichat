@@ -32,3 +32,7 @@ const Button = {
 		Server.stop();
 	}
 }
+
+function openExt(url) {
+	require("nw.gui").Shell.openExternal(url);
+}
