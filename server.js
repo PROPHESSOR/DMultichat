@@ -112,7 +112,6 @@ function run(callback) {
         res.sendFile(path.join(__dirname, "/public/chat.html"));
     });
 
-
     if (config.live_data.youtube.enabled && config.live_data.youtube.redirect_url) {
         app.get(config.live_data.youtube.redirect_url, (req, res) => {
             youtubeApi.getToken(req.query.code);
@@ -212,3 +211,6 @@ exports.getIo = () => io;
 exports.setLogger = setLogger;
 exports.run = run;
 exports.stop = stop;
+
+// Автозапуск сервера при старте из ноды
+if (!module.parent) run();

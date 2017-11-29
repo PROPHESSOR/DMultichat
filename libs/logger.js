@@ -10,7 +10,7 @@
  * Log.log("message");
  * Log.log("message", {noconvert:true});
 */
-
+/* eslint-disable */
 'use strict';
 
 /* eslint-disable no-console */

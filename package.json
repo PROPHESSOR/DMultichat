@@ -13,7 +13,8 @@
     "googleapis": "^12.4.0",
     "hitbox-chat": "^0.1.5",
     "socket.io": "^1.4.5",
-    "tmi.js": "^1.1.1"
+    "tmi.js": "^1.1.1",
+    "chalk": "latest"
   },
   "main": "index.html",
   "window":{
