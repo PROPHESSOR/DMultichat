@@ -1,5 +1,6 @@
 html {
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 label {
@@ -31,8 +32,9 @@ small {
 }
 
 #log {
-    max-height: 250px;
+    max-height: 150px;
     overflow: scroll;
+    overflow-x: hidden;
 }
 
 .back-danger {
