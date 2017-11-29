@@ -1,10 +1,12 @@
 {
-    "host": "http://localhost",
-    "port": 4242,
-    "whitelisted_ips": [
-        "127.0.0.1",
-        "::1"
-    ],
+    "server": {
+        "host": "http://localhost",
+        "port": 4545,
+        "whitelisted_ips": [
+            "127.0.0.1",
+            "::1"
+        ]
+    },
     "live_data": {
         "youtube": {
             "enabled": true,
@@ -30,5 +32,7 @@
             "room": "MY_ROOM",
             "grosminet_endpoint": "http://dmchat.dailymotion.com:80"
         }
-    }
+    },
+    "theme": "dafault",
+    "plugins": []
 }
