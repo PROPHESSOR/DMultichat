@@ -7,6 +7,8 @@ const async = require("async");
 const path = require("path");
 const ipfilter = require("express-ipfilter");
 
+const Router = require("./modules/Router"); // Здесь подключаются модули
+
 let config;
 
 try {
@@ -86,7 +88,6 @@ function run(callback) {
 
     const app = express();
 
-    app.use(express.static("public"));
     app.use(ipfilter(config.whitelisted_ips, {
         "mode": "allow",
         "logF": logger.info
@@ -108,9 +109,7 @@ function run(callback) {
         io.emit("oldSystemMessages", systemMessages);
     });
 
-    app.get("/", (req, res) => {
-        res.sendFile(path.join(__dirname, "/public/chat.html"));
-    });
+    app.use(Router);
 
     if (config.live_data.youtube.enabled && config.live_data.youtube.redirect_url) {
         app.get(config.live_data.youtube.redirect_url, (req, res) => {
