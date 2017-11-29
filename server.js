@@ -4,13 +4,13 @@ const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const async = require("async");
-const path = require("path");
+// const path = require("path");
 const ipfilter = require("express-ipfilter");
 const logger = require("./libs/logger");
 
 const Router = require("./modules/Router"); // Здесь подключаются модули
 
-let config;
+let config; // TODO: Перевести на nconf
 
 try {
     config = require("./config.json");
