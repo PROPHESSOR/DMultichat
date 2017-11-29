@@ -4,10 +4,7 @@ const http = require("http");
 const express = require("express");
 const socketio = require("socket.io");
 const async = require("async");
-// const fs = require("fs");
 const path = require("path");
-// const mkdirp = require("mkdirp");
-// var winston = require('winston');
 const ipfilter = require("express-ipfilter");
 
 let config;
@@ -24,72 +21,6 @@ if (!config.host || !config.port) {
     throw new Error(`В конфиге должны быть хост и порт! ${e}`);
 }
 
-/*
-
-winston.addColors({
-    debug: 'green',
-    info: 'cyan',
-    silly: 'magenta',
-    warn: 'yellow',
-    error: 'red'
-});
-
-var logger = new winston.Logger({
-    emitErrs: true,
-    transports: [
-        new winston.transports.Console({
-            level: 'debug',
-            name: 'console',
-            handleExceptions: true,
-            // prettyPrint: true,
-            silent: false,
-            timestamp: true,
-            colorize: true,
-            json: false
-        }),
-        new winston.transports.File({
-            name: 'info',
-            filename: './logs/info.log',
-            level: 'info',
-            colorize: true
-        }),
-        new winston.transports.File({
-            name: 'error',
-            filename: './logs/error.log',
-            level: 'error',
-            colorize: true
-        })
-    ],
-    exitOnError: false
-});
-
-logger = logger.log("debug");
-
-// winston.log = logger.transports.info.;
-*/
-/* 
-winston.add(winston.transports.File, {
-    name: 'info',
-    filename: './logs/info.log',
-    level: 'info',
-    colorize: true
-});
-
-winston.add(winston.transports.File, {
-    name: 'error',
-    filename: './logs/error.log',
-    level: 'error',
-    colorize: true
-});
- */
-// winston.lo
-
-
-// test.on('logged', function(){
-//     console.log(`[asjkdhflkashflksdf] ${arguments}`);
-// })
-
-// debugger;
 // FIXME: Костыль
 let logcb = () => {};
 
@@ -275,13 +206,6 @@ function stop() {
 
     return true;
 }
-
-// create a new directory for log files
-// mkdirp("./logs", (err) => {
-//     if (err) {
-//         logger.error("Unable to create the log folder", err);
-//     }
-// });
 
 exports.getServer = () => server;
 exports.getIo = () => io;

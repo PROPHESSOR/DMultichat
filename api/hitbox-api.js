@@ -1,39 +1,41 @@
-var http = require('https');
-var hitbox = require('hitbox-chat');
-var winston = require('winston');
+"use strict";
 
-var _config = null;
-var _isReady = false;
-var _newMessages = [];
-var _colors = ['000000'];
-var _userColorsMap = {};
+const http = require("https");
+const hitbox = require("hitbox-chat");
+const winston = require("winston");
+
+let _config = null;
+let _isReady = false;
+let _newMessages = [];
+let _colors = ["000000"];
+const _userColorsMap = {};
 
 function initialize(config) {
     _config = config.live_data.hitbox;
 
-    var client = new hitbox();
+    const client = new hitbox();
 
-    client.on("connect", function () {
+    client.on("connect", () => {
 
-        var channel = client.joinChannel(_config.channel);
-        channel.on("login", function(name, role) {
+        const channel = client.joinChannel(_config.channel);
+
+        channel.on("login", (name, role) => {
             ready();
         });
 
-        channel.on("chat", function (author, message, role) {
+        channel.on("chat", (author, message, role) => {
             if (!(author in _userColorsMap) ||
-                (author in _userColorsMap && _userColorsMap[author] == '000000' && _colors.length > 1))
-            {
+                author in _userColorsMap && _userColorsMap[author] === "000000" && _colors.length > 1) {
                 _userColorsMap[author] = _colors[Math.floor(Math.random() * _colors.length)];
             }
 
-            var chatMessage = {
-                type: 'chat',
-                author: author,
-                message: message,
-                source: 'hitbox',
-                date: new Date().getTime(),
-                color: '#' + _userColorsMap[author]
+            const chatMessage = {
+                "type": "chat",
+                author,
+                message,
+                "source": "hitbox",
+                "date": new Date().getTime(),
+                "color": `#${_userColorsMap[author]}`
             };
 
             _newMessages.push(chatMessage);
@@ -42,32 +44,32 @@ function initialize(config) {
 
     // hitbox-chat lib can throw exceptions into asynchronous functions
     // we don't want that the server crashes, so we handle them here
-    process.on('uncaughtException', function(err) {
-        winston.error(err, { source: 'hitbox' });
+    process.on("uncaughtException", (err) => {
+        winston.error(err, {"source": "hitbox"});
     })
 }
 
 function ready() {
-    winston.info('Hitbox API is ready to use (connected to ' + _config.channel + ')', { source: 'hitbox' });
+    winston.info(`Hitbox API is ready to use (connected to ${_config.channel})`, {"source": "hitbox"});
     _isReady = true;
 
     _newMessages.push({
-        type: 'system',
-        source: 'hitbox',
-        date: new Date().getTime(),
-        message: 'ready'
+        "type": "system",
+        "source": "hitbox",
+        "date": new Date().getTime(),
+        "message": "ready"
     });
 
     // Get available colors
-    http.get('https://api.hitbox.tv/chat/colors', (res) => {
-        res.setEncoding('utf8');
-        res.on('data', (chunk) => {
-            var json = JSON.parse(chunk);
-            if (json && json.colors)
-                _colors = _colors.concat(json.colors);
+    http.get("https://api.hitbox.tv/chat/colors", (res) => {
+        res.setEncoding("utf8");
+        res.on("data", (chunk) => {
+            const json = JSON.parse(chunk);
+
+            if (json && json.colors) _colors = _colors.concat(json.colors);
         })
-    }).on('error', (e) => {
-        winston.error(e.message, { source: 'hitbox' });
+    }).on("error", (e) => {
+        winston.error(e.message, {"source": "hitbox"});
     });
 }
 
@@ -76,10 +78,10 @@ function isReady() {
 }
 
 function getNewMessages() {
-    if (_newMessages.length == 0)
-        return [];
+    if (_newMessages.length == 0) return [];
 
-    var newMessage = _newMessages;
+    const newMessage = _newMessages;
+
     _newMessages = [];
 
     return newMessage;
