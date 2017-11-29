@@ -26,6 +26,10 @@ nav {
     box-sizing: border-box;
 }
 
+small{
+    cursor: help;
+}
+
 #log{
 	max-height: 250px;
 	overflow: scroll;
