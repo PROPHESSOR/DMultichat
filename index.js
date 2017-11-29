@@ -13,7 +13,7 @@ server.setLogger({
 		$("#log").append(`<blue>${log}</blue><br/>`);
 	},
 	warn(log) {
-		$("#log").append(`<yellow>${log}</yellow><br/>`);
+		$("#log").append(`<orange>${log}</orange><br/>`);
 	}
 });
 
