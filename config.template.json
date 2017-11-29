@@ -33,6 +33,6 @@
             "grosminet_endpoint": "http://dmchat.dailymotion.com:80"
         }
     },
-    "theme": "dafault",
+    "theme": "default",
     "plugins": []
 }
