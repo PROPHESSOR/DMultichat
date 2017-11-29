@@ -1,25 +1,29 @@
-var http = require('http');
-var express = require('express');
-var socketio = require('socket.io');
-var async = require('async');
-var fs = require('fs');
-var path = require('path');
-var mkdirp = require('mkdirp');
-// var winston = require('winston');
-var ipfilter = require('express-ipfilter');
+"use strict";
 
-var config;
+const http = require("http");
+const express = require("express");
+const socketio = require("socket.io");
+const async = require("async");
+// const fs = require("fs");
+const path = require("path");
+// const mkdirp = require("mkdirp");
+// var winston = require('winston');
+const ipfilter = require("express-ipfilter");
+
+let config;
+
 try {
-    config = require('./config.json');
+    config = require("./config.json");
 } catch (e) {
-    winston.error('Error loading config file: ' + e);
-    throw `Ошибка чтения файла конфигурации! ${e}`;
+    // winston.error(`Error loading config file: ${e}`);
+    throw new Error(`Ошибка чтения файла конфигурации! ${e}`);
 }
 
 if (!config.host || !config.port) {
-    winston.error('Error loading config file: host or port is missing!');
-    throw `В конфиге должны быть хост и порт! ${e}`;
+    // winston.error("Error loading config file: host or port is missing!");
+    throw new Error(`В конфиге должны быть хост и порт! ${e}`);
 }
+
 /*
 
 winston.addColors({
@@ -86,133 +90,142 @@ winston.add(winston.transports.File, {
 // })
 
 // debugger;
-//FIXME: Костыль
-var logcb = () => {};
+// FIXME: Костыль
+let logcb = () => {};
 
 function _logger(data) {
-    if (typeof data === 'object')
+    if (typeof data === "object") {
         try {
-            data = JSON.parse(data);
+            data = JSON.stringify(data, null, 4);
         } catch (e) {}
-    console.log(`[${Date.now()}]`, data);
+    }
+    console.log(`[${Date.now()}]`, data); //eslint-disable-line
     logcb(data);
 }
-logger = {
-    log: _logger,
-    warn: _logger,
-    error: _logger,
-    info: _logger,
-    debug: _logger
+
+const logger = {
+    "log": _logger,
+    "warn": _logger,
+    "error": _logger,
+    "info": _logger,
+    "debug": _logger
 }
 
 
-var youtubeApi = require('./api/youtube-api');
-var twitchApi = require('./api/twitch-api');
-var hitboxApi = require('./api/hitbox-api');
-var beamApi = require('./api/beam-api');
-var dailymotionApi = require('./api/dailymotion-api');
+const youtubeApi = require("./api/youtube-api");
+const twitchApi = require("./api/twitch-api");
+const hitboxApi = require("./api/hitbox-api");
+const beamApi = require("./api/beam-api");
+const dailymotionApi = require("./api/dailymotion-api");
 
-var chatMessageId = 0;
-var chatMessages = [];
-var systemMessages = [];
-var maxMessagesStored = 100;
+let chatMessageId = 0;
+const chatMessages = [];
+const systemMessages = [];
+const maxMessagesStored = 100;
 
-var server, io;
+let server, io;
 
-function run(callbacks) {
-    if (callbacks && callbacks.log) {
-        // logger.on('logged', callbacks.log);
-        logcb = callbacks.log;
+function setLogger(logfnc) {
+    logcb = logfnc;
+}
+
+function run(callback) {
+    logger.log("Запуск сервера...");
+
+    // initialize all APIs
+    if (config.live_data.youtube.enabled) {
+        youtubeApi.initialize(config);
     }
 
-    logger.log("lol");
-
-    // Initialize all APIs
-    if (config.live_data.youtube.enabled)
-        youtubeApi.initialize(config);
-
-    if (config.live_data.twitch.enabled)
+    if (config.live_data.twitch.enabled) {
         twitchApi.initialize(config);
+    }
 
-    if (config.live_data.hitbox.enabled)
+    if (config.live_data.hitbox.enabled) {
         hitboxApi.initialize(config);
+    }
 
-    if (config.live_data.beam.enabled)
+    if (config.live_data.beam.enabled) {
         beamApi.initialize(config);
+    }
 
-    if (config.live_data.dailymotion.enabled)
+    if (config.live_data.dailymotion.enabled) {
         dailymotionApi.initialize(config);
+    }
 
-    var app = express();
-    app.use(express.static('public'));
+    const app = express();
+
+    app.use(express.static("public"));
     app.use(ipfilter(config.whitelisted_ips, {
-        mode: 'allow',
-        logF: logger.info
+        "mode": "allow",
+        "logF": logger.info
     }));
 
     server = http.Server(app);
     io = socketio(server);
 
-    io.on('connection', function (socket) {
-        logger.info('Someone has connected to the chat');
-        socket.emit('connected');
+    io.on("connection", (socket) => {
+        logger.info("Someone has connected to the chat");
+        socket.emit("connected");
 
-        // Send only the last 10 messages
-        chatMessagesToSend = chatMessages.slice(Math.max(chatMessages.length - 10, 0));
-        io.emit('oldChatMessages', chatMessagesToSend);
+        // send only the last 10 messages
+        const chatMessagesToSend = chatMessages.slice(Math.max(chatMessages.length - 10, 0));
 
-        // Send system messages
-        io.emit('oldSystemMessages', systemMessages);
+        io.emit("oldChatMessages", chatMessagesToSend);
+
+        // send system messages
+        io.emit("oldSystemMessages", systemMessages);
     });
 
-    app.get('/', function (req, res) {
-        res.sendFile(path.join(__dirname, '/public/chat.html'));
+    app.get("/", (req, res) => {
+        res.sendFile(path.join(__dirname, "/public/chat.html"));
     });
 
 
     if (config.live_data.youtube.enabled && config.live_data.youtube.redirect_url) {
-        app.get(config.live_data.youtube.redirect_url, function (req, res) {
+        app.get(config.live_data.youtube.redirect_url, (req, res) => {
             youtubeApi.getToken(req.query.code);
-            res.redirect('/');
+            res.redirect("/");
         });
     }
 
-    server.listen(config.port, function () {
-        logger.info('listening on *: ' + config.port);
-        if (callbacks && callbacks.cb) callbacks.cb();
+    server.listen(config.port, () => {
+        logger.info(`Сервер запущен на порте: ${config.port}`);
+        if (callback) callback();
     });
 
-    // Retrieve new messages
-    var newMessages = [];
+    // retrieve new messages
+    let newMessages = [];
+
     async.forever(
-        function (next) {
+        (next) => {
 
             if (config.live_data.youtube.enabled) {
-                youtubeApi.getNewMessages().forEach(function (elt) {
+                youtubeApi.getNewMessages().forEach((elt) => {
                     newMessages.push(elt);
                 });
             }
 
             if (config.live_data.twitch.enabled && twitchApi.isReady()) {
-                twitchApi.getNewMessages().forEach(function (elt) {
+                twitchApi.getNewMessages().forEach((elt) => {
                     newMessages.push(elt);
                 });
             }
 
             if (config.live_data.hitbox.enabled && hitboxApi.isReady()) {
-                hitboxApi.getNewMessages().forEach(function (elt) {
+                hitboxApi.getNewMessages().forEach((elt) => {
                     newMessages.push(elt);
                 });
             }
 
             if (config.live_data.beam.enabled && beamApi.isReady()) {
-                beamApi.getNewMessages().forEach(function (elt) {
+                beamApi.getNewMessages().forEach((elt) => {
                     newMessages.push(elt);
                 });
             }
 
             if (config.live_data.dailymotion.enabled && dailymotionApi.isReady()) {
-                dailymotionApi.getNewMessages().forEach(function (elt) {
+                dailymotionApi.getNewMessages().forEach((elt) => {
                     newMessages.push(elt);
                 });
             }
@@ -220,26 +233,28 @@ function run(callbacks) {
             if (newMessages.length > 0) {
                 logger.info(newMessages);
 
-                newMessages.forEach(function (elt) {
-                    if (elt.type == 'chat') {
-                        // Affect a unique id to each message
+                newMessages.forEach((elt) => {
+                    if (elt.type === "chat") {
+                        // affect a unique id to each message
                         elt.id = chatMessageId;
                         chatMessageId++;
 
                         chatMessages.push(elt);
 
-                        // Make sure to keep less than the maximum allowed
-                        if (chatMessages.length > maxMessagesStored)
+                        // make sure to keep less than the maximum allowed
+                        if (chatMessages.length > maxMessagesStored) {
                             chatMessages.shift();
+                        }
 
-                        io.emit('newChatMessage', elt);
-                    } else if (elt.type == 'system') {
+                        io.emit("newChatMessage", elt);
+                    } else if (elt.type === "system") {
                         systemMessages.push(elt);
 
-                        if (systemMessages.length > maxMessagesStored)
+                        if (systemMessages.length > maxMessagesStored) {
                             systemMessages.shift();
+                        }
 
-                        io.emit('newSystemMessage', elt);
+                        io.emit("newSystemMessage", elt);
                     }
                 });
 
@@ -248,8 +263,8 @@ function run(callbacks) {
 
             setTimeout(next, 1000);
         },
-        function (err) {
-            logger.error('Error retrieving new messages: ' + err);
+        (err) => {
+            logger.error(`Error retrieving new messages: ${err}`);
         }
     );
 
@@ -257,14 +272,19 @@ function run(callbacks) {
 
 function stop() {
     server.close();
+
     return true;
 }
 
-// Create a new directory for log files
-mkdirp('./logs', function (err) {
-    if (err)
-        logger.error('Unable to create the log folder', err);
-});
+// create a new directory for log files
+// mkdirp("./logs", (err) => {
+//     if (err) {
+//         logger.error("Unable to create the log folder", err);
+//     }
+// });
 
+exports.getServer = () => server;
+exports.getIo = () => io;
+exports.setLogger = setLogger;
 exports.run = run;
 exports.stop = stop;
