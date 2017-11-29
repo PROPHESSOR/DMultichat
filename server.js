@@ -10,6 +10,13 @@ const logger = require("./libs/logger");
 
 const Router = require("./modules/Router"); // Здесь подключаются модули
 
+logger.setLevels(["themes"]);
+
+/* 
+ * Logger levels
+ * themes - Debug Theme module
+ */
+
 let config; // TODO: Перевести на nconf
 
 try {
