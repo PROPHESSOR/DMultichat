@@ -7,10 +7,10 @@ body {
     position: fixed;
     z-index: 42;
     top: 50%;
-    left: 33%;
+    left: calc(50% - 6rem);
     color: aquamarine;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 150%;
+    font-size: 2rem;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
