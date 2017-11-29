@@ -26,13 +26,13 @@ nav {
     box-sizing: border-box;
 }
 
-small{
+small {
     cursor: help;
 }
 
-#log{
-	max-height: 250px;
-	overflow: scroll;
+#log {
+    max-height: 250px;
+    overflow: scroll;
 }
 
 .back-danger {
@@ -46,24 +46,45 @@ small{
 }
 
 .back-warning {
-	background: #8a6d3b;
-	color: white;
+    background: #8a6d3b;
+    color: white;
 }
 
 
-/* a.text-warning:hover,
-  a.text-warning:focus {
-	color: #66512c;
-  } */
+/* Colorful tags =) */
 
+red {
+    color: red;
+}
 
-/* a.text-success:hover,
-  a.text-success:focus {
-	color: #2b542c;
-  } */
+yellow {
+    color: yellow;
+}
 
+green {
+    color: green;
+}
 
-/* a.text-danger:hover,
-a.text-danger:focus {
-    color: #843534;
-} */
+lgreen {
+    color: #0f0;
+}
+
+blue {
+    color: blue;
+}
+
+lblue {
+    color: lightblue;
+}
+
+cyan {
+    color: cyan;
+}
+
+orange {
+    color: orange;
+}
+
+purple {
+    color: blueviolet;
+}

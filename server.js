@@ -6,6 +6,7 @@ const socketio = require("socket.io");
 const async = require("async");
 const path = require("path");
 const ipfilter = require("express-ipfilter");
+const logger = require("./libs/logger");
 
 const Router = require("./modules/Router"); // Здесь подключаются модули
 
@@ -14,36 +15,16 @@ let config;
 try {
     config = require("./config.json");
 } catch (e) {
-    // winston.error(`Error loading config file: ${e}`);
     throw new Error(`Ошибка чтения файла конфигурации! ${e}`);
 }
 
-if (!config.host || !config.port) {
-    // winston.error("Error loading config file: host or port is missing!");
-    throw new Error(`В конфиге должны быть хост и порт! ${e}`);
+if (!config.server || !config.live_data || !config.theme || !config.plugins) {
+    throw new Error("Неверный или устаревший файл конфигурации");
 }
 
-// FIXME: Костыль
-let logcb = () => {};
-
-function _logger(data) {
-    if (typeof data === "object") {
-        try {
-            data = JSON.stringify(data, null, 4);
-        } catch (e) {}
-    }
-    console.log(`[${Date.now()}]`, data); //eslint-disable-line
-    logcb(data);
+if (!config.server.host || !config.server.port) {
+    throw new Error("В конфиге должны быть хост и порт!");
 }
-
-const logger = {
-    "log": _logger,
-    "warn": _logger,
-    "error": _logger,
-    "info": _logger,
-    "debug": _logger
-}
-
 
 const youtubeApi = require("./api/youtube-api");
 const twitchApi = require("./api/twitch-api");
@@ -58,8 +39,13 @@ const maxMessagesStored = 100;
 
 let server, io;
 
-function setLogger(logfnc) {
-    logcb = logfnc;
+function setLogger(log = () => {}) {
+    if (typeof log === "function") log = {log};
+
+    logger.setCallback("log", log.log)
+        .setCallback("error", log.error || log.log)
+        .setCallback("warn", log.warn || log.log)
+        .setCallback("info", log.info || log.log);
 }
 
 function run(callback) {

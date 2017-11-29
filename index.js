@@ -2,8 +2,19 @@
 
 const server = require("./server");
 
-server.setLogger((log) => {
-	$("#log").append(`${log} <br/>`);
+server.setLogger({
+	log(log) {
+		$("#log").append(`${log}<br/>`);
+	},
+	error(log) {
+		$("#log").append(`<red>${log}</red><br/>`);
+	},
+	info(log) {
+		$("#log").append(`<blue>${log}</blue><br/>`);
+	},
+	warn(log) {
+		$("#log").append(`<yellow>${log}</yellow><br/>`);
+	}
 });
 
 const Server = {
