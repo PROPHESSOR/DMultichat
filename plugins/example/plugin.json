@@ -1,0 +1,7 @@
+{
+	"name":"example",
+	"description":"Короткое описание плагина",
+	"author":"PROPHESSOR",
+	"url":"https://github.com/PROPHESSOR/DMultichat?ссылка_на_полное_описание_или_сайт_плагина",
+	"main":"index.js"
+}
