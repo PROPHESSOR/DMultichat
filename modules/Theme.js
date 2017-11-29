@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const logger = require("../libs/logger");
+const path = require("path");
 
 const config = require("../config.json");
 
@@ -23,11 +24,16 @@ class Theme {
 	}
 
 	static getConfig(theme) {
-		if (!fs.existsSync(`../themes/${theme}/theme.json`)) {
+		// const themeFolder = path.normalize(`${__dirname}/../themes/${theme}`);
+		const themeJson = path.normalize(`${__dirname}/../themes/${theme}/theme.json`);
+
+		try {
+			return require(themeJson);
+		} catch (e) {
+			logger.warn(`По пути ${themeJson} нет файла`, "themes");
+
 			return null;
 		}
-
-		return require(`../theme/${theme}/theme.json`);
 	}
 
 	static getCss(theme) {
@@ -37,7 +43,7 @@ class Theme {
 
 		const cssfile = thconfig.main;
 
-		const tmp = `../themes/${theme}/${cssfile}`;
+		const tmp = path.normalize(`${__dirname}/../themes/${theme}/${cssfile}`);
 
 		if (!fs.existsSync(tmp)) return logger.error(`У темы ${theme} нет файла ${cssfile}, который указан в theme.json!`);
 

@@ -5,17 +5,15 @@ const app = express.Router();
 const path = require("path");
 const logger = require("../libs/logger");
 
-// const Theme = require("../modules/Theme");
-// const theme = new Theme();
+const Theme = require("../modules/Theme");
 
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "/../public/chat.html"));
 });
 
-// app.get("/css/chat.css", (req, res) => {
-// 	logger.log("chat.css");
-// 	res.send("cssload");
-// });
+app.get("/css/chat.css", (req, res) => {
+	res.send(Theme.currentTheme.css);
+});
 
 app.use(express.static("public"));
 
