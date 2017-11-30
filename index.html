@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="libs/css/bootstrap.css">
 	<link rel="stylesheet" href="index.css">
 	<script src="libs/jquery.js"></script>
-	
+
 </head>
 
 <body>
@@ -21,14 +21,17 @@
 			</div>
 
 			<ul class="nav navbar-nav navbar-right">
-				<li class="active">
-					<a href="#">Старт</a>
+				<li class="active start">
+					<a href="#" onclick="Section.goto('start')">Старт</a>
 				</li>
-				<li>
-					<a href="#">Каналы</a>
+				<li class="channels">
+					<a href="#" onclick="Section.goto('channels')">Каналы</a>
 				</li>
-				<li class="disabled">
-					<a href="#">Логи</a>
+				<li class="settings">
+					<a href="#" onclick="Section.goto('settings')">Настройки</a>
+				</li>
+				<li class="disabled logs">
+					<a href="#" onclick="/*Section.goto('logs')*/">Логи</a>
 				</li>
 			</ul>
 		</div>
@@ -48,7 +51,7 @@
 				<span class="label label-danger col-xs-12">VK</span>
 			</div>
 		</div>
-		<div class="row">
+		<section class="row start">
 			<div class="col-xs-12">
 				<div class="panel panel-info">
 					<div class="panel-heading">
@@ -81,7 +84,7 @@
 					<div class="panel-body">
 						После запуска, мультичат будет доступен по этой ссылке:
 						<div class="well well-sm">
-							<a href="http://localhost:4545" target="_system">http://localhost:4545</a>
+							<a href="#" onclick="openExt(`${config.server.host}:${config.server.port}`)" class="dmurl"></a>
 						</div>
 						Вставте её во WebView вашей программы для проведения трансляций
 					</div>
@@ -102,8 +105,106 @@
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="footer row">
+		</section>
+
+
+		<section class="row settings" style="display:none;">
+			<div class="col-xs-12">
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Настройки сервера
+						</h3>
+					</div>
+					<div class="panel-body">
+						<form>
+							<label for="port">Порт:</label>
+							<input type="number" name="port" id="s_port">
+							<br>
+							<label for="wlenabled">Включить белый список?</label>
+							<input type="checkbox" name="wlenabled" id="s_iswl">
+							<label for="whitelist">Список разрешенных IP (разделять пробелом)</label>
+							<br>
+							<input type="text" name="whitelist" id="s_wl">
+						</form>
+					</div>
+					<div class="panel-footer">
+						<small>Нужна помощь?</small>
+					</div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Ссылка
+						</h3>
+					</div>
+					<div class="panel-body">
+						После запуска, мультичат будет доступен по этой ссылке:
+						<div class="well well-sm">
+							<a href="#" onclick="openExt(`${config.server.host}:${config.server.port}`)" class="dmurl"></a>
+						</div>
+						Вставте её во WebView вашей программы для проведения трансляций
+					</div>
+					<div class="panel-footer">
+						<small>Нужна помощь?</small>
+					</div>
+				</div>
+				<div class="panel panel-danger">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Лог
+						</h3>
+					</div>
+					<div class="panel-body" id="log">
+					</div>
+					<div class="panel-footer">
+						<small>Нужна помощь?</small>
+					</div>
+				</div>
+			</div>
+		</section>
+
+
+		<section class="row channels" style="display:none;">
+			<div class="col-xs-12">
+				<div class="panel panel-info">
+					<!-- TODO: Цвет панели отображает статус -->
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							YouTube
+						</h3>
+					</div>
+					<div class="panel-body">
+						<button type="button" class="btn btn-large btn-block btn-primary col-xs-12">Войти в аккаунт</button>
+					</div>
+					<div class="panel-footer">
+						<small>Нужна помощь?</small>
+					</div>
+				</div>
+				<div class="panel panel-info">
+					<div class="panel-heading">
+						<h3 class="panel-title">
+							Twitch
+						</h3>
+					</div>
+					<div class="panel-body">
+						<form>
+							<label for="twitch">Канал: </label>
+							<input name="twitch" type="text" id="c_twitch">
+						</form>
+					</div>
+					<div class="panel-footer">
+						<small>Нужна помощь?</small>
+					</div>
+				</div>
+				
+				<button type="button" class="btn btn-large btn-block btn-primary col-xs-12" onclick="Settings.saveChannels()">Сохранить</button>
+				
+			</div>
+		</section>
+
+
+		<footer class="row">
 
 			<button type="button" class="btn btn-info col-xs-3">
 				Помощь
@@ -121,7 +222,7 @@
 				Старт
 			</button>
 
-		</div>
+		</footer>
 	</div>
 	<script src="index.js"></script>
 </body>

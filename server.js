@@ -10,7 +10,10 @@ const logger = require("./libs/logger");
 
 const Router = require("./modules/Router"); // Здесь подключаются модули
 
-logger.setLevels(["themes"]);
+logger.setLevels([
+    "themes",
+    "debug"
+]);
 
 /* 
  * Logger levels

@@ -8,13 +8,13 @@ label {
     /* width: 150px; */
 }
 
-select {
+select, form > input {
     float: right;
     /* width: 250px; */
     width: 25%;
 }
 
-.footer {
+footer {
     position: fixed;
     bottom: 0;
     width: 100vw;
