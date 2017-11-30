@@ -2,19 +2,36 @@
 
 const server = require("./server");
 
+function log(text) {
+	$("#log").append(`${text}<br/>`);
+}
+
+function error(text) {
+	$("#log").append(`<red>${text}</red><br/>`);
+}
+
+function info(text) {
+	$("#log").append(`<blue>${text}</blue><br/>`);
+}
+
+function warn(text) {
+	$("#log").append(`<orange>${text}</orange><br/>`);
+}
+
+let config;
+
+try {
+	config = require("./config");
+} catch (e) {
+	error("Файл конфигурации не найден!");
+	// TODO: Блокировка запуска и создание конфига
+}
+
 server.setLogger({
-	log(log) {
-		$("#log").append(`${log}<br/>`);
-	},
-	error(log) {
-		$("#log").append(`<red>${log}</red><br/>`);
-	},
-	info(log) {
-		$("#log").append(`<blue>${log}</blue><br/>`);
-	},
-	warn(log) {
-		$("#log").append(`<orange>${log}</orange><br/>`);
-	}
+	log,
+	error,
+	info,
+	warn
 });
 
 const Server = {
