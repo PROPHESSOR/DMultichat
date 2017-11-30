@@ -121,10 +121,12 @@
 							<label for="port">Порт:</label>
 							<input type="number" name="port" id="s_port">
 							<br>
+							<br>
 							<label for="wlenabled">Включить белый список?</label>
 							<input type="checkbox" name="wlenabled" id="s_iswl">
-							<label for="whitelist">Список разрешенных IP (разделять пробелом)</label>
 							<br>
+							<br>
+							<label for="whitelist">Список разрешенных IP (разделять пробелом)</label>
 							<input type="text" name="whitelist" id="s_wl">
 						</form>
 					</div>
@@ -132,35 +134,7 @@
 						<small>Нужна помощь?</small>
 					</div>
 				</div>
-				<div class="panel panel-info">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							Ссылка
-						</h3>
-					</div>
-					<div class="panel-body">
-						После запуска, мультичат будет доступен по этой ссылке:
-						<div class="well well-sm">
-							<a href="#" onclick="openExt(`${config.server.host}:${config.server.port}`)" class="dmurl"></a>
-						</div>
-						Вставте её во WebView вашей программы для проведения трансляций
-					</div>
-					<div class="panel-footer">
-						<small>Нужна помощь?</small>
-					</div>
-				</div>
-				<div class="panel panel-danger">
-					<div class="panel-heading">
-						<h3 class="panel-title">
-							Лог
-						</h3>
-					</div>
-					<div class="panel-body" id="log">
-					</div>
-					<div class="panel-footer">
-						<small>Нужна помощь?</small>
-					</div>
-				</div>
+				<button type="button" class="btn btn-large btn-block btn-primary col-xs-12" onclick="Settings.saveSettings()">Сохранить</button>
 			</div>
 		</section>
 
@@ -197,9 +171,9 @@
 						<small>Нужна помощь?</small>
 					</div>
 				</div>
-				
+
 				<button type="button" class="btn btn-large btn-block btn-primary col-xs-12" onclick="Settings.saveChannels()">Сохранить</button>
-				
+
 			</div>
 		</section>
 
