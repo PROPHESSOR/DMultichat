@@ -81,10 +81,12 @@ function run(callback, settings = {}) {
 
     const app = express();
 
-    app.use(ipfilter(config.server.whitelisted_ips, {
-        "mode": "allow",
-        "logF": logger.info
-    }));
+    if (config.server.whitelist.enabled) {
+        app.use(ipfilter(config.server.whitelist.ips, {
+            "mode": "allow",
+            "logF": logger.info
+        }));
+    }
 
     server = http.Server(app);
     io = socketio(server);
