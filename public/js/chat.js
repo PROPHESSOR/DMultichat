@@ -1,5 +1,7 @@
-// Taken from http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values
+/* eslint-disable */
+
 function getParameterByName(name) {
+    // Taken from http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
     results = regex.exec(location.search);
@@ -22,7 +24,7 @@ Twitch = {
     },
 
     parseDogs: function(text){
-        return text.replace(/@(.+)\s/,'<span class="chat-dog">@$1 </span>'); // Only singl-word nicks
+        return text.replace(/@(.+)\s/,'<span class="chat-dog">@$1 </span>'); // Only single-word nicks
     },
 
     formatEmotes: function(text, emotes) {
@@ -309,6 +311,6 @@ $(document).ready(function() {
 
     // Hide API status?
     if (getParameterByName('hide_api_status')) {
-      $('#api-status').remove();
+      $('#api-status').hide();
     }
 });

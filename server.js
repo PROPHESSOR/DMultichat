@@ -55,7 +55,7 @@ function setLogger(log = () => {}) {
         .setCallback("info", log.info || log.log);
 }
 
-function run(callback) {
+function run(callback, settings = {}) {
     logger.log("Запуск сервера...");
 
     // initialize all APIs

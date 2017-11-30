@@ -22,7 +22,7 @@ const Server = {
 		server.run(() => {
 			$("#currentstate").text("DMultichat запущен!");
 			$("#currentstatebg").removeClass("back-danger back-warning").addClass("back-success");
-		});
+		}, {});
 		$("#currentstate").text("DMultichat запускается...");
 		$("#currentstatebg").removeClass("back-danger back-success").addClass("back-warning");
 	},
