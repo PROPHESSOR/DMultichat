@@ -73,8 +73,7 @@ const Section = new class {
 
 		Section._currentSection = section;
 
-		from.fadeOut();
-		to.fadeIn();
+		from.fadeOut({"complete": () => to.fadeIn()});
 
 		fromnav.removeClass("active");
 		tonav.addClass("active");
