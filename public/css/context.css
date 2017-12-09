@@ -10,6 +10,8 @@
     background: #F9F9F9;
     box-shadow: 3px 3px 2px #E9E9E9;
     border-radius: 4px;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #contextmenu .context-items {
@@ -33,6 +35,7 @@
 #contextmenu li {
     padding: 3px;
     padding-left: 10px;
+    cursor: pointer;
 }
 
 .context-items :hover {
