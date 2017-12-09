@@ -34,3 +34,5 @@ node_modules
 
 config.json
 .credentials
+
+/tmp
