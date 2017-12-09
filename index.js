@@ -21,8 +21,10 @@ server.setLogger({
 });
 
 const Server = {
+	"_status": false,
 	start() {
 		server.run(() => {
+			Server._status = true;
 			$("#currentstate").text("DMultichat запущен!");
 			$("#currentstatebg").removeClass("back-danger back-warning").addClass("back-success");
 		}, {});
@@ -32,18 +34,31 @@ const Server = {
 
 	stop() {
 		server.stop();
+		Server._status = false;
 		$("#currentstate").text("DMultichat не запущен!");
 		$("#currentstatebg").removeClass("back-success back-warning").addClass("back-danger");
 	}
 }
 
 const Button = {
-	start() {
-		Server.start();
-	},
+	float() {
+		if (!Server._status) return alert("Необходимо сначала запустить сервер!"); //eslint-disable-line
 
-	stop() {
-		Server.stop();
+		require("nw.gui").Window.open(`${config.server.host}:${config.server.port}`, {
+			"transparent": true,
+			"frame": false
+		}, () => {
+			log("Открыто плавающее окно")
+		});
+	},
+	toggle() {
+		if (Server._status) {
+			Server.stop();
+			$("#footer-toggle").removeClass("btn-danger").addClass("btn-success").text("Старт");
+		} else {
+			Server.start();
+			$("#footer-toggle").removeClass("btn-success").addClass("btn-danger").text("Стоп");
+		}
 	}
 }
 
