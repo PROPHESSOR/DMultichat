@@ -1,19 +1,22 @@
 <!Doctype html>
 <html>
+
 <head>
     <title>Multichat</title>
-    <link rel="stylesheet" type="text/css" href="css/chat.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="css/api.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="css/colors.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="css/yt-emoji.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="css/animate.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/chat.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="css/api.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="css/colors.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="css/yt-emoji.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="css/animate.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="css/context.css"/>
 
     <script src="http://cdn.staticfile.org/jquery/2.1.0/jquery.min.js"></script>
     <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
     <script src="js/chat.js"></script>
     <script src="js/yt-emoji.js"></script>
 </head>
-<body>
+
+<body style="-webkit-app-region: drag;">
     <div id="loader" class="fade">Загружаюсь...</div>
     <div id="fade" class="fade"></div>
     <div id="chat-box"></div>
@@ -27,5 +30,18 @@
             <li id="dailymotion-status">DAILYMOTION</li>
         </ul>
     </div>
+
+    <div id="contextmenu">
+        <ul class="context-items">
+            <li onclick="ContextMenu.action.toggleBackground()">Показать/скрыть фон</li>
+            <li onclick="ContextMenu.action.toggleApi()">Показать/скрыть состояние трансляции</li>
+        </ul>
+        <hr/>
+        <ul class="context-items">
+            <li onclick="ContextMenu.action.reload()">Перезапустить</li>
+            <li onclick="ContextMenu.action.close()">Закрыть</li>
+        </ul>
+    </div>
 </body>
+
 </html>
