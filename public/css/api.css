@@ -3,6 +3,8 @@
     right: 0;
     bottom: 0;
     cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 #api-status li {

@@ -16,7 +16,7 @@
     <script src="js/yt-emoji.js"></script>
 </head>
 
-<body style="-webkit-app-region: drag;">
+<body>
     <div id="loader" class="fade">Загружаюсь...</div>
     <div id="fade" class="fade"></div>
     <div id="chat-box"></div>
@@ -36,6 +36,10 @@
             <li onclick="ContextMenu.action.toggleBackground()">Показать/скрыть фон</li>
             <li onclick="ContextMenu.action.toggleApi()">Показать/скрыть состояние трансляции</li>
         </ul>
+        <hr/>
+            <ul class="context-items">
+                <li style="-webkit-app-region: drag; cursor: move;">Место для перемещения</li>
+            </ul>
         <hr/>
         <ul class="context-items">
             <li onclick="ContextMenu.action.reload()">Перезапустить</li>
