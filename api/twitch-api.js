@@ -1,70 +1,70 @@
 "use strict";
 
 const irc = require("tmi.js");
-const winston = require("../libs/logger");
+const {info} = require("../libs/logger");
+const API = require("./API");
 
-let _config = null;
-let _isReady = false;
-let _newMessages = [];
+class TwitchAPI extends API {
+	constructor() {
+		super("Twitch");
 
-function initialize(config) {
-    _config = config.live_data.twitch;
+		this._config = null;
+		this._newMessages = [];
+	}
 
-    const options = {
-        "options": {"debug": false},
-        "connection": {"reconnect": true},
-        "channels": [_config.channel]
-    };
+	initialize(config) {
+		this._config = config.live_data.twitch;
 
-    const client = new irc.client(options);
+		const options = {
+			"options": {"debug": false},
+			"connection": {"reconnect": true},
+			"channels": [this._config.channel]
+		};
 
-    client.on("connected", (address, port) => {
-        ready();
-    });
+		const client = new irc.client(options);
 
-    client.on("chat", (channel, user, message, self) => {
-        const chatMessage = {
-            "type": "chat",
-            "author": user["display-name"],
-            "color": user.color,
-            message,
-            "emotes": user.emotes,
-            "source": "twitch",
-            "date": new Date().getTime()
-        };
+		client.on("connected", (/* address, port */) => {
+			this.ready();
+		});
 
-        _newMessages.push(chatMessage);
-    });
+		client.on("chat", (channel, user, message/* , self */) => {
+			const chatMessage = {
+				"type": "chat",
+				"author": user["display-name"],
+				"color": user.color,
+				message,
+				"emotes": user.emotes,
+				"source": "twitch",
+				"date": new Date().getTime()
+			};
 
-    client.connect();
+			this._newMessages.push(chatMessage);
+		});
+
+		client.connect();
+	}
+
+	ready() {
+		info(`Twitch API is ready to use (connected to ${this._config.channel})`, {"source": "twitch"});
+		this._isReady = true;
+
+		this._newMessages.push({
+			"type": "system",
+			"source": "twitch",
+			"date": new Date().getTime(),
+			"message": "ready"
+		});
+	}
+
+	getNewMessages() {
+		if (this._newMessages.length === 0) return [];
+
+		const newMessage = this._newMessages;
+
+		this._newMessages = [];
+
+		return newMessage;
+	}
 }
 
-function ready() {
-    winston.info(`Twitch API is ready to use (connected to ${_config.channel})`, {"source": "twitch"});
-    _isReady = true;
-
-    _newMessages.push({
-        "type": "system",
-        "source": "twitch",
-        "date": new Date().getTime(),
-        "message": "ready"
-    });
-}
-
-function isReady() {
-    return _isReady;
-}
-
-function getNewMessages() {
-    if (_newMessages.length === 0) return [];
-
-    const newMessage = _newMessages;
-
-    _newMessages = [];
-
-    return newMessage;
-}
-
-exports.initialize = initialize;
-exports.isReady = isReady;
-exports.getNewMessages = getNewMessages;
+module.exports = new TwitchAPI();

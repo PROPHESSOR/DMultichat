@@ -15,7 +15,7 @@ logger.setLevels([
     "debug"
 ]);
 
-/* 
+/*
  * Logger levels
  * themes - Debug Theme module
  */
@@ -36,11 +36,15 @@ if (!config.server.host || !config.server.port) {
     throw new Error("В конфиге должны быть хост и порт!");
 }
 
+// APIs
+
 const youtubeApi = require("./api/youtube-api");
 const twitchApi = require("./api/twitch-api");
 const hitboxApi = require("./api/hitbox-api");
 const beamApi = require("./api/beam-api");
 const dailymotionApi = require("./api/dailymotion-api");
+
+// -APIs
 
 let chatMessageId = 0;
 const chatMessages = [];
