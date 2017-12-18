@@ -10,6 +10,8 @@ const logger = require("./libs/logger");
 
 const Router = require("./modules/Router"); // Здесь подключаются модули
 
+const Antimat = require("./modules/Antimat");
+
 logger.setLevels([
     "themes",
     "debug"
@@ -133,31 +135,31 @@ function run(callback, settings = {}) {
 
             if (config.live_data.youtube.enabled) {
                 youtubeApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 
             if (config.live_data.twitch.enabled && twitchApi.isReady()) {
                 twitchApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 
             if (config.live_data.hitbox.enabled && hitboxApi.isReady()) {
                 hitboxApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 
             if (config.live_data.beam.enabled && beamApi.isReady()) {
                 beamApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 
             if (config.live_data.dailymotion.enabled && dailymotionApi.isReady()) {
                 dailymotionApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 

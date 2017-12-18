@@ -1,5 +1,6 @@
 /* API Class
  * Don't remove!
+ * Не удаляйте!
  * Copyright (c) 2017 PROPHESSOR
 */
 

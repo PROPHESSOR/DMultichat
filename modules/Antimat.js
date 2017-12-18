@@ -133,7 +133,11 @@ class Antimat {
 	 * @returns {string} Out text
 	 */
 	process(text) {
-		let out = this.replaceIncludes(text);
+		let out = text;
+
+		if (typeof text === "object") out = text.message;
+
+		out = this.replaceIncludes(out);
 
 
 		out = this.removeExceptions(out);
@@ -144,10 +148,10 @@ class Antimat {
 
 		out = out
 			.replace(/пизд/g, r)
-			.replace(/(\s+)(на|по|)\s*хер/g, r1)
-			.replace(/(\s+)(на|по|)\s*ху[ийяю]/g, r1)
-			.replace(/(\s+)бл[яеэ]([тд]ь|)/g, r1)
-			.replace(/(\s+)еб[лане]/g, r1)
+			.replace(/(\s+|^)(на|по|)\s*хер/g, r1)
+			.replace(/(\s+|^)(на|по|)\s*ху[ийяю]/g, r1)
+			.replace(/(\s+|^)бл[яеэ]([тд]ь|)/g, r1)
+			.replace(/(\s+|^)еб[лане]/g, r1)
 			// .replace(/(\s+|^)лох/g, r1)
 			.replace(/(\s+|^)трах/g, r1)
 			.replace(/(е|ё|йо)[бп](\s+|$)/g, rr2)
@@ -155,9 +159,18 @@ class Antimat {
 			.replace(/(\s+|^)пид[aо]?р(ас)?/g, r1)
 			.replace(/(\s+|^)[хк]ул[еи]/g, r1)
 			.replace(/(\s+|^)(за)?[ие][бп]ал[аи]?/g, r1)
-			.replace(/ёб/g, r)
+			.replace(/ёб/g, r);
 
-		return this.returnExceptions(out);
+		out = this.returnExceptions(out);
+
+		if (typeof text === "object") {
+			const tmp = out;
+
+			out = text;
+			out.message = tmp;
+		}
+
+		return out;
 
 	}
 }

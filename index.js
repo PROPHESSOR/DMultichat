@@ -47,6 +47,7 @@ const Button = {
 		require("nw.gui").Window.open(`${config.server.host}:${config.server.port}`, {
 			"transparent": true,
 			"frame": false
+			// "always-on-top": true
 		}, () => {
 			log("Открыто плавающее окно")
 		});
