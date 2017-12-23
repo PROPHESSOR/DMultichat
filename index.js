@@ -40,7 +40,7 @@ const Server = {
 	}
 }
 
-const Button = {
+const Button = { //eslint-disable-line
 	float() {
 		if (!Server._status) return alert("Необходимо сначала запустить сервер!"); //eslint-disable-line
 
@@ -63,7 +63,7 @@ const Button = {
 	}
 }
 
-const Settings = {
+const Settings = { //eslint-disable-line
 	saveChannels() {
 		// TODO:
 	},

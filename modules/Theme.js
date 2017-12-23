@@ -20,27 +20,27 @@ class Theme {
 	}
 
 	get chat() {
-		return Theme.getFilePath(this.theme, "main") || Theme.getFilePath(defaultTheme, "main");
+		return Theme.getFilePath(this.theme, "main");
 	}
 
 	get yt_emoji() { // eslint-disable-line
-		return Theme.getFilePath(this.theme, "yt_emoji") || Theme.getFilePath(defaultTheme, "yt_emoji");
+		return Theme.getFilePath(this.theme, "yt_emoji");
 	}
 
 	get api() {
-		return Theme.getFilePath(this.theme, "api") || Theme.getFilePath(defaultTheme, "api");
+		return Theme.getFilePath(this.theme, "api");
 	}
 
 	get animate() {
-		return Theme.getFilePath(this.theme, "animate") || Theme.getFilePath(defaultTheme, "animate");
+		return Theme.getFilePath(this.theme, "animate");
 	}
 
 	get colors() {
-		return Theme.getFilePath(this.theme, "colors") || Theme.getFilePath(defaultTheme, "colors");
+		return Theme.getFilePath(this.theme, "colors");
 	}
 
 	get context() {
-		return Theme.getFilePath(this.theme, "context") || Theme.getFilePath(defaultTheme, "context");
+		return Theme.getFilePath(this.theme, "context");
 	}
 
 	static get currentTheme() {

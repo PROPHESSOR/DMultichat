@@ -143,7 +143,7 @@ class Antimat {
 		out = this.removeExceptions(out);
 		const r = this._repl;
 		const r1 = `$1${r}`;
-		const r2 = `$2${r}`;
+		// const r2 = `$2${r}`;
 		const rr2 = `${r}$2`;
 
 		out = out
