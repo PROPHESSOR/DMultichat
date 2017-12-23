@@ -335,7 +335,8 @@ $(document).ready(function () {
         "source": "robot",
         "date": Date.now(),
         "author": "DMultichat",
-        "message": "Добро пожаловать в DMultichat"
+        "message": "Добро пожаловать в DMultichat",
+        "color": "lightblue"
     });
 
     $(".fade").fadeOut(500);
