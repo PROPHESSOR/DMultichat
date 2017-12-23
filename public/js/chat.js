@@ -14,7 +14,11 @@ Youtube = {
     },
 
     parseDogs: function (text) {
-        return text.replace(/@(.+)\s/, '<span class="chat-dog">@$1 </span>'); // Can be multi-word nicks
+        //text.replace(/@(.+)\s/, '<span class="chat-dog">@$1 </span>'); // Can be multi-word nicks
+        if(/@(.+)\s/.test(text))
+            return `<span class="chat-dog">${text}</span>`;
+        else
+            return text;
     }
 };
 
@@ -24,7 +28,11 @@ Twitch = {
     },
 
     parseDogs: function (text) {
-        return text.replace(/@(.+)\s/, '<span class="chat-dog">@$1 </span>'); // Only single-word nicks
+        //return text.replace(/@(.+)\s/, '<span class="chat-dog">@$1 </span>'); // Only single-word nicks
+        if(/@(.+)\s/.test(text))
+            return `<span class="chat-dog">${text}</span>`;
+        else
+            return text;
     },
 
     formatEmotes: function (text, emotes) {
