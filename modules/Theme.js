@@ -9,8 +9,6 @@ const config = require("../config.json");
 class Theme {
 	constructor(theme) {
 		this.theme = theme;
-		// this.css = Theme.getCss(theme);
-		// this.path = Theme.getFilePath(theme);
 
 		const cfg = Theme.getConfig(theme);
 
@@ -54,7 +52,6 @@ class Theme {
 	}
 
 	static getConfig(theme) {
-		// const themeFolder = path.normalize(`${__dirname}/../themes/${theme}`);
 		const themeJson = path.normalize(`${__dirname}/../themes/${theme}/theme.json`);
 
 		try {
@@ -64,25 +61,6 @@ class Theme {
 
 			return null;
 		}
-	}
-
-	static getCss(/* theme */) {
-		return logger.warn("Theme.getCss is deplecated!");
-		/*
-		const thconfig = Theme.getConfig(theme);
-
-		if (!thconfig) return logger.error(`Да нет у меня темы ${theme}!`);
-
-		const cssfile = thconfig.main;
-
-		const tmp = path.normalize(`${__dirname}/../themes/${theme}/${cssfile}`);
-
-		if (!fs.existsSync(tmp)) return logger.error(`У темы ${theme} нет файла ${cssfile}, который указан в theme.json!`);
-
-		const css = fs.readFileSync(tmp, "utf8");
-
-
-		return css;*/
 	}
 
 	static getFilePath(theme, file = "undefined") {
@@ -108,7 +86,5 @@ class Theme {
 		return tmp;
 	}
 }
-
-// const defaultTheme = new Theme("../public/css");
 
 module.exports = Theme;

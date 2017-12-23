@@ -3,7 +3,7 @@
 const express = require("express");
 const app = express.Router();
 const path = require("path");
-const logger = require("../libs/logger");
+// const logger = require("../libs/logger");
 
 const Theme = require("../modules/Theme");
 

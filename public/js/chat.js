@@ -357,7 +357,3 @@ $(document).bind("contextmenu", function (e) {
 $(document).on("click", function () {
     ContextMenu.hide();
 });
-
-$("#items > li").click(function () {
-    $("#op").text("You have selected " + $(this).text());
-});
