@@ -335,7 +335,8 @@ $(document).ready(function () {
         "source": "robot",
         "date": Date.now(),
         "author": "DMultichat",
-        "message": "Добро пожаловать в DMultichat"
+        "message": "Добро пожаловать в DMultichat",
+        "color": "lightblue"
     });
 
     $(".fade").fadeOut(500);
@@ -355,8 +356,4 @@ $(document).bind("contextmenu", function (e) {
 
 $(document).on("click", function () {
     ContextMenu.hide();
-});
-
-$("#items > li").click(function () {
-    $("#op").text("You have selected " + $(this).text());
 });

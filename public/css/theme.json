@@ -1,0 +1,12 @@
+{
+	"name": "default",
+	"description": "Стандартная тема DMultichat",
+	"author": "Noxalus & PROPHESSOR",
+	"url": "https://github.com/PROPHESSOR/DMultichat",
+	"chat": "chat.css",
+	"api": "api.css",
+	"colors": "colors.css",
+	"context": "context.css",
+	"animate": "animate.css",
+	"yt_emoji": "yt-emoji.css"
+}

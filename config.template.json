@@ -10,6 +10,10 @@
             ]
         }
     },
+    "chat": {
+        "updateTime": 1000,
+        "maxMessagesStored": 100
+    },
     "live_data": {
         "youtube": {
             "enabled": true,

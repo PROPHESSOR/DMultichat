@@ -3,7 +3,7 @@
 const express = require("express");
 const app = express.Router();
 const path = require("path");
-const logger = require("../libs/logger");
+// const logger = require("../libs/logger");
 
 const Theme = require("../modules/Theme");
 
@@ -12,7 +12,27 @@ app.get("/", (req, res) => {
 });
 
 app.get("/css/chat.css", (req, res) => {
-	res.send(Theme.currentTheme.css);
+	res.sendFile(Theme.currentTheme.chat);
+});
+
+app.get("/css/animate.css", (req, res) => {
+	res.sendFile(Theme.currentTheme.animate);
+});
+
+app.get("/css/context.css", (req, res) => {
+	res.sendFile(Theme.currentTheme.context);
+});
+
+app.get("/css/yt-emoji.css", (req, res) => {
+	res.sendFile(Theme.currentTheme.yt_emoji);
+});
+
+app.get("/css/api.css", (req, res) => {
+	res.sendFile(Theme.currentTheme.api);
+});
+
+app.get("/css/colors.css", (req, res) => {
+	res.sendFile(Theme.currentTheme.colors);
 });
 
 app.use(express.static("public"));

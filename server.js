@@ -10,12 +10,14 @@ const logger = require("./libs/logger");
 
 const Router = require("./modules/Router"); // Здесь подключаются модули
 
+const Antimat = require("./modules/Antimat");
+
 logger.setLevels([
     "themes",
     "debug"
 ]);
 
-/* 
+/*
  * Logger levels
  * themes - Debug Theme module
  */
@@ -36,11 +38,15 @@ if (!config.server.host || !config.server.port) {
     throw new Error("В конфиге должны быть хост и порт!");
 }
 
+// APIs
+
 const youtubeApi = require("./api/youtube-api");
 const twitchApi = require("./api/twitch-api");
 const hitboxApi = require("./api/hitbox-api");
 const beamApi = require("./api/beam-api");
 const dailymotionApi = require("./api/dailymotion-api");
+
+// -APIs
 
 let chatMessageId = 0;
 const chatMessages = [];
@@ -58,7 +64,7 @@ function setLogger(log = () => {}) {
         .setCallback("info", log.info || log.log);
 }
 
-function run(callback, settings = {}) {
+function run(callback/* , settings = {} */) {
     logger.log("Запуск сервера...");
 
     // initialize all APIs
@@ -129,31 +135,31 @@ function run(callback, settings = {}) {
 
             if (config.live_data.youtube.enabled) {
                 youtubeApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 
             if (config.live_data.twitch.enabled && twitchApi.isReady()) {
                 twitchApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 
             if (config.live_data.hitbox.enabled && hitboxApi.isReady()) {
                 hitboxApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 
             if (config.live_data.beam.enabled && beamApi.isReady()) {
                 beamApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 
             if (config.live_data.dailymotion.enabled && dailymotionApi.isReady()) {
                 dailymotionApi.getNewMessages().forEach((elt) => {
-                    newMessages.push(elt);
+                    newMessages.push(Antimat.process(elt));
                 });
             }
 

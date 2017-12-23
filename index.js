@@ -40,13 +40,14 @@ const Server = {
 	}
 }
 
-const Button = {
+const Button = { //eslint-disable-line
 	float() {
 		if (!Server._status) return alert("Необходимо сначала запустить сервер!"); //eslint-disable-line
 
 		require("nw.gui").Window.open(`${config.server.host}:${config.server.port}`, {
 			"transparent": true,
 			"frame": false
+			// "always-on-top": true
 		}, () => {
 			log("Открыто плавающее окно")
 		});
@@ -62,7 +63,7 @@ const Button = {
 	}
 }
 
-const Settings = {
+const Settings = { //eslint-disable-line
 	saveChannels() {
 		// TODO:
 	},
