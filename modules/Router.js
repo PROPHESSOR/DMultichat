@@ -12,7 +12,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/css/chat.css", (req, res) => {
-	res.send(Theme.currentTheme.css);
+	res.sendFile(Theme.currentTheme.path);
 });
 
 app.use(express.static("public"));

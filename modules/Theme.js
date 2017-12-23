@@ -9,6 +9,7 @@ const config = require("../config.json");
 class Theme {
 	constructor(theme) {
 		this.css = Theme.getCss(theme);
+		this.path = Theme.getFilePath(theme);
 
 		const cfg = Theme.getConfig(theme);
 
@@ -51,6 +52,20 @@ class Theme {
 
 
 		return css;
+	}
+
+	static getFilePath(theme) {
+		const thconfig = Theme.getConfig(theme);
+
+		if (!thconfig) return logger.error(`Да нет у меня темы ${theme}!`);
+
+		const cssfile = thconfig.main;
+
+		const tmp = path.normalize(`${__dirname}/../themes/${theme}/${cssfile}`);
+
+		if (!fs.existsSync(tmp)) return logger.error(`У темы ${theme} нет файла ${cssfile}, который указан в theme.json!`);
+
+		return tmp;
 	}
 }
 

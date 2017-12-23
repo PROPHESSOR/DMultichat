@@ -2,7 +2,7 @@
 
 const http = require("https");
 const hitbox = require("hitbox-chat");
-const winston = require("winston");
+const winston = require("../libs/logger");
 
 let _config = null;
 let _isReady = false;
