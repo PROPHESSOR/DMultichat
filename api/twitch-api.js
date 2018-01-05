@@ -45,7 +45,7 @@ class TwitchAPI extends API {
 	}
 
 	ready() {
-		info(`Twitch API is ready to use (connected to ${this._config.channel})`, {"source": "twitch"});
+		info(`Twitch API is ready to use (connected to ${this._config.channel})`, {"level": "twitch"});
 		this._isReady = true;
 
 		this._newMessages.push({
