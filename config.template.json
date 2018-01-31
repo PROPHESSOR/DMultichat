@@ -17,8 +17,8 @@
     "live_data": {
         "youtube": {
             "enabled": true,
-            "client_id": "MY_CLIENT_ID",
-            "client_secret": "MY_CLIENT_SECRET",
+            "client_id": "607477547106-or279i2ccphunvp9i0d2q7lq3lrf9tqf.apps.googleusercontent.com",
+            "client_secret": "TV6NUgyzmpEqoal93qp9sIk0",
             "redirect_url": "/youtube/callback"
         },
         "twitch": {

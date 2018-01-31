@@ -70,6 +70,10 @@ const Settings = { //eslint-disable-line
 
 	saveSettings() {
 		// TODO:
+	},
+
+	openYouTubeToken() {
+		openExt(server.API.youtube.getTokenLink());
 	}
 }
 

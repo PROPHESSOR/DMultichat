@@ -13,7 +13,6 @@ const SCOPES = [
 const TOKEN_DIR = ".credentials/";
 const TOKEN_PATH = `${TOKEN_DIR}youtube-credentials.json`;
 
-let _config = null;
 const _youtube = google.youtube("v3");
 let _liveChatId = "";
 let _isReady = false;
@@ -24,6 +23,7 @@ let _newMessages = [];
 let _liveBroadcastPollingStarted = false;
 let _messagePollingStarted = false;
 let _noLiveBroadcastFound = false;
+let _config = null;
 
 function getRandomColor() {
     const letters = "0123456789ABCDEF".split("");
@@ -37,7 +37,6 @@ function getRandomColor() {
 }
 
 function initialize(config) {
-    _config = config;
     authorize(config);
 }
 
@@ -60,9 +59,11 @@ function isReady() {
 }
 
 function authorize(credentials) {
+    _config = credentials;
+
     const clientSecret = credentials.live_data.youtube.client_secret;
     const clientId = credentials.live_data.youtube.client_id;
-    const redirectUrl = `${_config.host}:${_config.port}${credentials.live_data.youtube.redirect_url}`;
+    const redirectUrl = `${credentials.server.host}:${credentials.server.port}${credentials.live_data.youtube.redirect_url}`;
 
     const auth = new googleAuth();
 
@@ -78,6 +79,25 @@ function authorize(credentials) {
 
             startLiveBroadcastPolling();
         }
+    });
+}
+
+function getTokenLink() {
+    if (!_auth) {
+        const config = require("../config.json") // FIXME: Костыль, но без него пока никак
+        const clientSecret = config.live_data.youtube.client_secret;
+        const clientId = config.live_data.youtube.client_id;
+        const redirectUrl = `${config.server.host}:${config.server.port}${config.live_data.youtube.redirect_url}`;
+
+        const auth = new googleAuth();
+
+        _auth = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+    }
+
+    return _auth.generateAuthUrl({
+        "access_type": "offline",
+        "scope": SCOPES,
+        "approval_prompt": "force"
     });
 }
 
@@ -277,3 +297,5 @@ exports.initialize = initialize;
 exports.isReady = isReady;
 exports.getToken = getToken;
 exports.getNewMessages = getNewMessages;
+exports.getTokenLink = getTokenLink;
+exports.SCOPES = SCOPES;

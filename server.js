@@ -115,6 +115,7 @@ function run(callback/* , settings = {} */) {
 
     app.use(Router);
 
+    // Получение Token'а от YouTube
     if (config.live_data.youtube.enabled && config.live_data.youtube.redirect_url) {
         app.get(config.live_data.youtube.redirect_url, (req, res) => {
             youtubeApi.getToken(req.query.code);
@@ -214,6 +215,13 @@ exports.getIo = () => io;
 exports.setLogger = setLogger;
 exports.run = run;
 exports.stop = stop;
+exports.API = {
+    "youtube": youtubeApi,
+    "twitch": twitchApi,
+    "dailymotion": dailymotionApi,
+    "beam": beamApi,
+    "hitbox": hitboxApi
+}
 
 // Автозапуск сервера при старте из ноды
 if (!module.parent) run();
