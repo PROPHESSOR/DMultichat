@@ -10,6 +10,11 @@ class TwitchAPI extends API {
 
 		this._config = null;
 		this._newMessages = [];
+		this._status = "off";
+	}
+
+	get status() {
+		return this._status;
 	}
 
 	initialize(config) {
@@ -47,6 +52,7 @@ class TwitchAPI extends API {
 	ready() {
 		info(`Twitch API is ready to use (connected to ${this._config.channel})`, {"level": "twitch"});
 		this._isReady = true;
+		this._status = "ready";
 
 		this._newMessages.push({
 			"type": "system",
