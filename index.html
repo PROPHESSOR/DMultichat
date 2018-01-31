@@ -44,11 +44,11 @@
 					<h2 class="text-center" id="currentstate">DMultichat не запущен!</h2>
 				</div>
 			</div>
-			<div class="col-xs-2">
-				<span class="label label-warning col-xs-12">YouTube</span>
-				<span class="label label-success col-xs-12">Twitch</span>
-				<span class="label label-danger col-xs-12">GoodGame</span>
-				<span class="label label-danger col-xs-12">VK</span>
+			<div class="col-xs-2" id="start_apis">
+				<span class="label youtube label-danger col-xs-12">YouTube</span>
+				<span class="label twitch label-danger col-xs-12">Twitch</span>
+				<span class="label gg label-danger col-xs-12">GoodGame</span>
+				<span class="label vk label-danger col-xs-12">VK</span>
 			</div>
 		</div>
 		<section class="row start">
@@ -84,7 +84,7 @@
 					<div class="panel-body">
 						После запуска, мультичат будет доступен по этой ссылке:
 						<div class="well well-sm">
-							<a href="#" onclick="openExt(`${config.server.host}:${config.server.port}`)" class="dmurl"></a>
+							<a href="#" onclick="openExt(`${config.server.host}:${config.server.port}`)" class="dmurl">Подождите, загружаюсь...</a>
 						</div>
 						Вставте её во WebView вашей программы для проведения трансляций
 					</div>

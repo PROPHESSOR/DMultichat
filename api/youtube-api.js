@@ -23,7 +23,7 @@ let _newMessages = [];
 let _liveBroadcastPollingStarted = false;
 let _messagePollingStarted = false;
 let _noLiveBroadcastFound = false;
-let _config = null;
+let _status = "off";
 
 function getRandomColor() {
     const letters = "0123456789ABCDEF".split("");
@@ -43,6 +43,7 @@ function initialize(config) {
 function ready() {
     winston.info("Youtube API is ready to use", {"source": "youtube"});
     _isReady = true;
+    _status = "ready";
 
     _newMessages.push({
         "type": "system",
@@ -59,8 +60,6 @@ function isReady() {
 }
 
 function authorize(credentials) {
-    _config = credentials;
-
     const clientSecret = credentials.live_data.youtube.client_secret;
     const clientId = credentials.live_data.youtube.client_id;
     const redirectUrl = `${credentials.server.host}:${credentials.server.port}${credentials.live_data.youtube.redirect_url}`;
@@ -180,6 +179,7 @@ function getLiveBroadcast() {
                 if (_isReady) return;
 
                 _noLiveBroadcastFound = false;
+                _status = "ready";
                 const [liveBroadcast] = liveBroadcasts;
 
                 winston.info("Live broadcast found", {"source": "youtube"});
@@ -202,6 +202,7 @@ function getLiveBroadcast() {
                 }
 
                 _noLiveBroadcastFound = true;
+                _status = "nobroadcast";
                 const errorMessage = "No broadcast live detected";
 
                 winston.error(errorMessage, {"source": "youtube"});
@@ -299,3 +300,4 @@ exports.getToken = getToken;
 exports.getNewMessages = getNewMessages;
 exports.getTokenLink = getTokenLink;
 exports.SCOPES = SCOPES;
+exports.status = _status;

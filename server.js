@@ -53,7 +53,9 @@ const chatMessages = [];
 const systemMessages = [];
 const maxMessagesStored = 100;
 
-let server, io;
+let server,
+    io,
+    _enabled = false;
 
 function setLogger(log = () => {}) {
     if (typeof log === "function") log = {log};
@@ -201,11 +203,12 @@ function run(callback/* , settings = {} */) {
             logger.error(`Error retrieving new messages: ${err}`);
         }
     );
-
+    _enabled = true;
 }
 
 function stop() {
     server.close();
+    _enabled = false;
 
     return true;
 }
@@ -222,6 +225,7 @@ exports.API = {
     "beam": beamApi,
     "hitbox": hitboxApi
 }
+exports.enabled = () => _enabled;
 
 // Автозапуск сервера при старте из ноды
 if (!module.parent) run();

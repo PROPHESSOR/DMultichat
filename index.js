@@ -27,6 +27,7 @@ const Server = {
 			Server._status = true;
 			$("#currentstate").text("DMultichat запущен!");
 			$("#currentstatebg").removeClass("back-danger back-warning").addClass("back-success");
+			Section.update();
 		}, {});
 		$("#currentstate").text("DMultichat запускается...");
 		$("#currentstatebg").removeClass("back-danger back-success").addClass("back-warning");
@@ -37,6 +38,7 @@ const Server = {
 		Server._status = false;
 		$("#currentstate").text("DMultichat не запущен!");
 		$("#currentstatebg").removeClass("back-success back-warning").addClass("back-danger");
+		Section.update();
 	}
 }
 
@@ -106,6 +108,35 @@ const Section = new class {
 	getNav(section) {
 		return $(`ul.nav > li.${section}`);
 	}
+
+	update() {
+		// TODO: Обновление состояния поля enabled в секции Каналы
+		// TODO: Обновление состояния трансляции в секции Старт
+		// FIXME: Можно лучше
+		if (server.enabled && server.API.youtube.status === "ready") $("#start_apis .youtube")
+				.removeClass("label-danger label-warning label-success")
+				.addClass("label-success");
+		else if (server.API.youtube.status === "nobroadcast") $("#start_apis .youtube")
+				.removeClass("label-danger label-warning label-success")
+				.addClass("label-warning");
+		else if (!server.enabled || server.API.youtube.status === "off") $("#start_apis .youtube")
+				.removeClass("label-danger label-warning label-success")
+				.addClass("label-danger");
+
+		if (server.enabled && server.API.twitch.status === "ready") $("#start_apis .twitch")
+				.removeClass("label-danger label-warning label-success")
+				.addClass("label-success");
+		else if (!server.enabled || server.API.twitch.status === "off") $("#start_apis .twitch")
+				.removeClass("label-danger label-warning label-success")
+				.addClass("label-danger");
+
+		// $("#start_apis .gg")
+		// 	.removeClass("label-danger label-warning label-success")
+		// 	.addClass("label-success");
+		// $("#start_apis .vk")
+		// 	.removeClass("label-danger label-warning label-success")
+		// 	.addClass("label-success");
+	}
 }()
 
 function openExt(url) { //eslint-disable-line
@@ -118,6 +149,7 @@ function postHtml() {
 
 // $(document).ready(postHtml);
 postHtml();
+setInterval(Section.update, 1000);
 
 
 // api
