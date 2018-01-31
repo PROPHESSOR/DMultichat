@@ -118,7 +118,13 @@ class YoutubeAPI extends API {
 
     getTokenLink() {
         if (!this._auth) {
-            const config = require("../config.json") // FIXME: Костыль, но без него пока никак
+            let config;
+
+            try {
+                config = require("../config.json") // FIXME: Костыль, но без него пока никак
+            } catch (e) {
+                return false;
+            }
             const clientSecret = config.live_data.youtube.client_secret;
             const clientId = config.live_data.youtube.client_id;
             const redirectUrl = `${config.server.host}:${config.server.port}${config.live_data.youtube.redirect_url}`;

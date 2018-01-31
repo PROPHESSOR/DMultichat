@@ -5,6 +5,14 @@ const app = express.Router();
 const path = require("path");
 // const logger = require("../libs/logger");
 
+let config;
+
+try {
+	config = require("../config.json");
+} catch (e) {
+	config = require("../config.template.json");
+}
+
 const Theme = require("../modules/Theme");
 
 app.get("/", (req, res) => {
@@ -34,6 +42,16 @@ app.get("/css/api.css", (req, res) => {
 app.get("/css/colors.css", (req, res) => {
 	res.sendFile(Theme.currentTheme.colors);
 });
+
+// Получение Token'а от YouTube
+if (config.live_data.youtube.enabled && config.live_data.youtube.redirect_url) {
+	const youtubeApi = require("../api/youtube-api");
+
+	app.get(config.live_data.youtube.redirect_url, (req, res) => {
+		youtubeApi.getToken(req.query.code);
+		res.redirect("/");
+	});
+}
 
 app.use(express.static("public"));
 

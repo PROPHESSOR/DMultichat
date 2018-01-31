@@ -4,7 +4,11 @@ const fs = require("fs");
 const logger = require("../libs/logger");
 const path = require("path");
 
-const config = require("../config.json");
+let config;
+
+try {
+	config = require("../config.json");
+} catch (e) {}
 
 class Theme {
 	constructor(theme) {
