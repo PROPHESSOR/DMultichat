@@ -111,22 +111,21 @@ const Section = new class {
 
 	update() {
 		// TODO: Обновление состояния поля enabled в секции Каналы
-		// TODO: Обновление состояния трансляции в секции Старт
-		// FIXME: Можно лучше
-		if (server.enabled && server.API.youtube.status === "ready") $("#start_apis .youtube")
+		// TODO: Обновление состояния трансляции в секции Старт FIXME: Можно лучше
+		if (server.enabled() && server.API.youtube.status === "ready") $("#start_apis .youtube")
 				.removeClass("label-danger label-warning label-success")
 				.addClass("label-success");
 		else if (server.API.youtube.status === "nobroadcast") $("#start_apis .youtube")
 				.removeClass("label-danger label-warning label-success")
 				.addClass("label-warning");
-		else if (!server.enabled || server.API.youtube.status === "off") $("#start_apis .youtube")
+		else if (!server.enabled() || server.API.youtube.status === "off") $("#start_apis .youtube")
 				.removeClass("label-danger label-warning label-success")
 				.addClass("label-danger");
 
-		if (server.enabled && server.API.twitch.status === "ready") $("#start_apis .twitch")
+		if (server.enabled() && server.API.twitch.status === "ready") $("#start_apis .twitch")
 				.removeClass("label-danger label-warning label-success")
 				.addClass("label-success");
-		else if (!server.enabled || server.API.twitch.status === "off") $("#start_apis .twitch")
+		else if (!server.enabled() || server.API.twitch.status === "off") $("#start_apis .twitch")
 				.removeClass("label-danger label-warning label-success")
 				.addClass("label-danger");
 
