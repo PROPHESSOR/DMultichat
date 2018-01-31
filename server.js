@@ -132,14 +132,6 @@ function run(callback/* , settings = {} */) {
 
     app.use(Router);
 
-    // Получение Token'а от YouTube
-    if (config.live_data.youtube.enabled && config.live_data.youtube.redirect_url) {
-        app.get(config.live_data.youtube.redirect_url, (req, res) => {
-            youtubeApi.getToken(req.query.code);
-            res.redirect("/");
-        });
-    }
-
     server.listen(config.server.port, () => {
         logger.info(`Сервер запущен на порте: ${config.server.port}`);
         if (callback) callback();
