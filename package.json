@@ -6,19 +6,20 @@
   "dependencies": {
     "async": "^2.0.0-rc.1",
     "beam-client-node": "^0.7.1",
+    "chalk": "latest",
     "eventsource": "^0.2.1",
     "express": "^4.10.2",
     "express-ipfilter": "0.1.1",
+    "fs-copy-file-sync": "^1.0.1",
     "google-auth-library": "^0.9.7",
     "googleapis": "^12.4.0",
     "hitbox-chat": "^0.1.5",
     "socket.io": "^1.4.5",
-    "tmi.js": "^1.1.1",
-    "chalk": "latest"
+    "tmi.js": "^1.1.1"
   },
   "main": "index.html",
-  "window":{
-    "width":777,
-    "height":800
+  "window": {
+    "width": 777,
+    "height": 800
   }
 }

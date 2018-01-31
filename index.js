@@ -10,6 +10,7 @@ try {
 	config = require("./config");
 } catch (e) {
 	error("Файл конфигурации не найден!");
+	config = require("./config.template");
 	// TODO: Блокировка запуска и создание конфига
 }
 

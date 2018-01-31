@@ -27,7 +27,22 @@ let config; // TODO: Перевести на nconf
 try {
     config = require("./config.json");
 } catch (e) {
-    throw new Error(`Ошибка чтения файла конфигурации! ${e}`);
+    logger.error(`Ошибка чтения файла конфигурации, создаю новый! ${e}`);
+
+    try {
+        const fs = require("fs-copy-file-sync");
+
+        fs("./config.template.json", "./config.json", 1);
+    } catch (err) {
+        logger.error(`Ошибка копирования файла конфигурации! ${err}`);
+    }
+
+    try {
+        config = require("./config.json");
+    } catch (err) {
+        logger.error(`Ошибка чтения файла конфигурации! ${err}`);
+        config = require("./config.template.json");
+    }
 }
 
 if (!config.server || !config.live_data || !config.theme || !config.plugins) {
