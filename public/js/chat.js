@@ -349,8 +349,8 @@ $(document).ready(function () {
 
     $(".fade").fadeOut(500);
 
-    // Hide API status?
-    if (getParameterByName('hide_api_status')) {
+    // Hide API status? FIXME: Поддержка нескольких параметров
+    if (getParameterByName('hide_api_status') || window.location.hash === '#noapi') {
         $('#api-status').hide();
         ContextMenu.action._api = false;
     }

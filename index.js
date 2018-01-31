@@ -144,7 +144,7 @@ function openExt(url) { //eslint-disable-line
 }
 
 function postHtml() {
-	$(".dmurl").text(`${config.server.host}:${config.server.port}`);
+	$(".dmurl").text(`${config.server.host}:${config.server.port}/#noapi`);
 }
 
 // $(document).ready(postHtml);
